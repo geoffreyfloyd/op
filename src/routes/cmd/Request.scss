@@ -1,0 +1,59 @@
+@import "../../components/theme.scss";
+
+.container:last-child {
+   border-bottom: 0;
+}
+
+.container {
+   margin: 5px;
+   border-bottom: 3px solid #2e2e2e;
+}
+
+.waiting {
+   color: $clrComment;
+}
+
+.inprocess {
+   color: $clrComment;
+}
+
+.ok {
+   color: $clrDefault;
+}
+
+.err {
+   color: $clrError;
+   text-decoration: line-through;
+}
+
+
+.inprocess:hover {
+   font-size: 1.2em;
+   line-height: 0.8em;
+   cursor: pointer;
+}
+
+.waiting:hover {
+   font-size: 1.2em;
+   line-height: 0.8em;
+   cursor: pointer;
+}
+
+.ok:hover {
+   font-size: 1.2em;
+   line-height: 0.8em;
+   cursor: pointer;
+}
+
+.err:hover {
+   font-size: 1.2em;
+   line-height: 0.8em;
+   cursor: pointer;
+}
+
+.response {
+   margin-left: 30px;
+   max-height: 300px;
+   overflow-y: auto;
+   overflow-x: hidden;
+}

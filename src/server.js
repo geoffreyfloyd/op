@@ -44,68 +44,68 @@ server.use(bodyParser.json());
 // Authentication
 // -----------------------------------------------------------------------------
 server.use(expressJwt({
-  secret: auth.jwt.secret,
-  credentialsRequired: false,
-  /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-  getToken: req => req.cookies.id_token,
-  /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
+   secret: auth.jwt.secret,
+   credentialsRequired: false,
+   /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
+   getToken: req => req.cookies.id_token,
+   /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
 }));
 server.use(passport.initialize());
 
 server.get('/login/facebook',
-  passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
+   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
 );
 server.get('/login/facebook/return',
-  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-  (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-    const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-    res.redirect('/');
-  }
+   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+   (req, res) => {
+      const expiresIn = 60 * 60 * 24 * 180; // 180 days
+      const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
+      res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+      res.redirect('/');
+   }
 );
 
 //
 // Register API middleware
 // -----------------------------------------------------------------------------
 server.use('/graphql', expressGraphQL(req => ({
-  schema,
-  graphiql: true,
-  rootValue: { request: req },
-  pretty: process.env.NODE_ENV !== 'production',
+   schema,
+   graphiql: true,
+   rootValue: { request: req },
+   pretty: process.env.NODE_ENV !== 'production',
 })));
 
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
 server.get('*', async (req, res, next) => {
-  try {
-    let statusCode = 200;
-    const template = require('./views/index.jade');
-    const data = { title: '', description: '', css: '', body: '', entry: assets.main.js };
+   try {
+      let statusCode = 200;
+      const template = require('./views/index.jade');
+      const data = { title: '', description: '', css: '', body: '', entry: assets.main.js };
 
-    if (process.env.NODE_ENV === 'production') {
-      data.trackingId = analytics.google.trackingId;
-    }
+      if (process.env.NODE_ENV === 'production') {
+         data.trackingId = analytics.google.trackingId;
+      }
 
-    const css = [];
-    const context = {
-      insertCss: styles => css.push(styles._getCss()),
-      onSetTitle: value => (data.title = value),
-      onSetMeta: (key, value) => (data[key] = value),
-      onPageNotFound: () => (statusCode = 404),
-    };
+      const css = [];
+      const context = {
+         insertCss: styles => css.push(styles._getCss()),
+         onSetTitle: value => (data.title = value),
+         onSetMeta: (key, value) => (data[key] = value),
+         onPageNotFound: () => (statusCode = 404),
+      };
 
-    await Router.dispatch({ path: req.path, query: req.query, context }, (state, component) => {
-      data.body = ReactDOM.renderToString(component);
-      data.css = css.join('');
-    });
+      await Router.dispatch({ path: req.path, query: req.query, context }, (state, component) => {
+         data.body = ReactDOM.renderToString(component);
+         data.css = css.join('');
+      });
 
-    res.status(statusCode);
-    res.send(template(data));
-  } catch (err) {
-    next(err);
-  }
+      res.status(statusCode);
+      res.send(template(data));
+   } catch (err) {
+      next(err);
+   }
 });
 
 //
@@ -116,20 +116,20 @@ pe.skipNodeFiles();
 pe.skipPackage('express');
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-  console.log(pe.render(err)); // eslint-disable-line no-console
-  const template = require('./views/error.jade');
-  const statusCode = err.status || 500;
-  res.status(statusCode);
-  res.send(template({
-    message: err.message,
-    stack: process.env.NODE_ENV === 'production' ? '' : err.stack,
-  }));
+   console.log(pe.render(err)); // eslint-disable-line no-console
+   const template = require('./views/error.jade');
+   const statusCode = err.status || 500;
+   res.status(statusCode);
+   res.send(template({
+      message: err.message,
+      stack: process.env.NODE_ENV === 'production' ? '' : err.stack,
+   }));
 });
 
 //
 // Launch the server
 // -----------------------------------------------------------------------------
 server.listen(port, () => {
-  /* eslint-disable no-console */
-  console.log(`The server is running at http://localhost:${port}/`);
+   /* eslint-disable no-console */
+   console.log(`The server is running at http://localhost:${port}/`);
 });

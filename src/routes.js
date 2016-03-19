@@ -16,33 +16,34 @@ import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 
 const routes = [
-  require('./routes/home'),
-  require('./routes/contact'),
-  require('./routes/login'),
-  require('./routes/register'),
+   require('./routes/home'),
+   require('./routes/cmd'),
+   require('./routes/contact'),
+   require('./routes/login'),
+   require('./routes/register'),
 ];
 
 const router = new Router(on => {
-  on('*', async (state, next) => {
-    const component = await next();
-    return component && <App context={state.context}>{component}</App>;
-  });
+   on('*', async (state, next) => {
+      const component = await next();
+      return component && <App context={state.context}>{component}</App>;
+   });
 
-  routes.forEach(route => {
-    on(route.path, route.action);
-  });
+   routes.forEach(route => {
+      on(route.path, route.action);
+   });
 
-  on('*', async (state) => {
-    const query = `/graphql?query={content(path:"${state.path}"){path,title,content,component}}`;
-    const response = await fetch(query);
-    const { data } = await response.json();
-    return data && data.content && <ContentPage {...data.content} />;
-  });
+   on('*', async (state) => {
+      const query = `/graphql?query={content(path:"${state.path}"){path,title,content,component}}`;
+      const response = await fetch(query);
+      const { data } = await response.json();
+      return data && data.content && <ContentPage {...data.content} />;
+   });
 
-  on('error', (state, error) => state.statusCode === 404 ?
-    <App context={state.context} error={error}><NotFoundPage /></App> :
-    <App context={state.context} error={error}><ErrorPage /></App>
-  );
+   on('error', (state, error) => state.statusCode === 404 ?
+      <App context={state.context} error={error}><NotFoundPage /></App> :
+      <App context={state.context} error={error}><ErrorPage /></App>
+   );
 });
 
 export default router;

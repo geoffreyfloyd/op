@@ -8,13 +8,11 @@
  */
 
 import React from 'react';
-import Home from './Home';
-import fetch from '../../core/fetch';
+import Cmd from './Cmd';
 
-export const path = '/';
+export const path = '/cmd';
 export const action = async (state) => {
-   const response = await fetch('/graphql?query={news{title,link,contentSnippet}}');
-   const { data } = await response.json();
-   state.context.onSetTitle('React.js Starter Kit');
-   return <Home news={data.news} />;
+   const title = 'Command Prompt';
+   state.context.onSetTitle(title);
+   return <Cmd title={title} />;
 };
