@@ -5,6 +5,7 @@
     "npm": ">=3.3 <4"
   },
   "dependencies": {
+    "babble": "git+https://github.com/hoomanlogic/babble.git",
     "babel-polyfill": "6.6.1",
     "babel-runtime": "6.6.1",
     "bluebird": "3.3.4",
@@ -20,6 +21,7 @@
     "fastclick": "1.0.6",
     "fbjs": "0.7.2",
     "front-matter": "2.0.6",
+    "fs-extra": "^0.26.7",
     "graphiql": "0.6.0",
     "graphql": "0.4.18",
     "history": "2.0.1",
@@ -129,6 +131,7 @@
     "bundle": "babel-node tools/run bundle",
     "build": "babel-node tools/run build",
     "deploy": "babel-node tools/run deploy",
-    "start": "babel-node tools/run start"
+    "start": "babel-node tools/run start",
+    "wavlogs": "node src/loggers/wav-logger/index.js"
   }
 }
