@@ -5,8 +5,6 @@ var path = require('path');
 var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs-extra'));
 
-var wavPath = 'D:\\prj_audio';
-
 /**
  * Promise to return a list of subdirectories that parse to a date
  */
@@ -63,13 +61,13 @@ function getWavLog (uri) {
       var counter = 0;
       var items = [];
       var waiting = false;
-            
+      
       fs.walk(uri).on('readable', function() {
          var item;
          
          while (item = this.read()) {
             // All files in '.gnapses' are by assumed to be a pointer to a gnode
-            if (item.stats.isFile() && item.path.slice(-3).toLowerCase() === 'wav') {
+            if (item.stats.isFile() && item.path.slice(-4).toLowerCase() === '.wav') {
                // Up the counter of wav files
                counter++;
                // Get wav file info
@@ -132,9 +130,17 @@ function getWavLog (uri) {
    });
 }
 
-getWavLogFolders(wavPath).then(getWavLogs).then(function (logs) {
-   logs.forEach(function (log) {
-      var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
-      console.log(log.name + ' : ' + log.items[0].start + ' : ' + duration.tokens[0].value.toString(':'));
-   });
-});
+module.exports = {
+   getWavLog: getWavLog,
+   getWavLogs: getWavLogs,
+   getWavLogFolders: getWavLogFolders
+};
+
+// Sample Use
+// var wavPath = 'D:\\prj_audio';
+// getWavLogFolders(wavPath).then(getWavLogs).then(function (logs) {
+//    logs.forEach(function (log) {
+//       var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
+//       console.log(log.name + ' : ' + log.items[0].start + ' : ' + duration.tokens[0].value.toString(':'));
+//    });
+// });
