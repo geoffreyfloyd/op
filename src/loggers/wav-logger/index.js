@@ -10,7 +10,7 @@ var wavPath = 'D:\\prj_audio';
 /**
  * Promise to return a list of subdirectories that parse to a date
  */
-function getDateLogFolders (uri) {
+function getWavLogFolders (uri) {
    // Return a promise
    return new Promise( function (resolve, reject) {
       // Build list of folders
@@ -43,47 +43,60 @@ function getDateLogFolders (uri) {
    });
 };
 
-function tallyWavDurations (folders) {
-   return Promise.all(folders.map(function (folder) {
-      return tallyWavDuration(folder).then(function (seconds) {
-         var duration = babble.get('durations').parse(String(parseInt(seconds, 10)) + ' sec');
-         var log = { 
-            uri: folder,
-            name: folder.split(path.sep).slice(-1)[0],
-            duration: duration.tokens[0].value.toString(':')
-         };
-         console.log(log);
+function getWavLogs (folders) {
+   return new Promise(function (resolve, reject) {
+      var logs = [];
+      return Promise.all(folders.map(function (folder) {
+         return getWavLog(folder).then(function (log) {
+            logs.push(log);
+         });
+      })).then(function () {
+         resolve(logs);
       });
-   }));
+   });
 };
 
-function tallyWavDuration (uri) {
+function getWavLog (uri) {
    return new Promise(function (resolve, reject) {
-      var waiting = false;
-      var time = 0;
+
+      var totalDuration = 0;
       var counter = 0;
+      var items = [];
+      var waiting = false;
+            
       fs.walk(uri).on('readable', function() {
          var item;
          
          while (item = this.read()) {
             // All files in '.gnapses' are by assumed to be a pointer to a gnode
             if (item.stats.isFile() && item.path.slice(-3).toLowerCase() === 'wav') {
-
-               // Build target and relation from path
-               var base = path.basename(item.path);
-               var target = base.slice(2);
-               var relation = base.slice(0, 1);
+               // Up the counter of wav files
                counter++;
+               // Get wav file info
                wavFileInfo.infoByFilename(item.path, function (err, info) {
+                  // Successfully extracted wav info
                   if (info) {
                      // add to total
-                     time += info.duration;
+                     totalDuration += info.duration;
+                     // add log item
+                     items.push({
+                        start: info.stats.birthtime || info.stats.atime,
+                        duration: info.duration
+                     });
                   }
+                  
+                  // Remove from counter
                   counter--;
                   
+                  // Resolve when all wav files have been processed
                   if (waiting && counter === 0) {
                      waiting = false;
-                     resolve(time);
+                     resolve({
+                        items: items,
+                        name: uri.split(path.sep).slice(-1)[0],
+                        duration: totalDuration,
+                        uri: uri,
+                     });
                   }
                });
             }
@@ -103,22 +116,25 @@ function tallyWavDuration (uri) {
          return;
       })
       .on('end', function() {
-         if (counter === 0) {
-            
+         if (counter !== 0) {
+            waiting = true;
          }
          else {
-            waiting = true;
+            resolve({
+               items: items,
+               name: uri.split(path.sep).slice(-1)[0],
+               duration: totalDuration,
+               uri: uri,
+            });
          }
          return;
       });
    });
 }
 
-function logTime (sec) {
-   // var seconds = sec % 60;
-   // var minutes = (sec - seconds) / 60;
-   var duration = babble.get('durations').parse(String(parseInt(sec, 10)) + 'sec'); //minutes + 'm' + parseInt(seconds, 10) + 's'
-   console.log(duration.tokens[0].value.toString(':'));
-}
-
-getDateLogFolders(wavPath).then(tallyWavDurations);
+getWavLogFolders(wavPath).then(getWavLogs).then(function (logs) {
+   logs.forEach(function (log) {
+      var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
+      console.log(log.name + ' : ' + log.items[0].start + ' : ' + duration.tokens[0].value.toString(':'));
+   });
+});
