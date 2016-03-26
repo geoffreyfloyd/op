@@ -46,13 +46,13 @@ module.exports = function(operator) {
             if (logGnode) {
                
                // Append to details of log
-               var details = logGnode.state.details + '\n' + text;
+               var details = logGnode.state.details + operator.newline + text;
                logGnode.setState(Object.assign({}, logGnode.state, {
                   details: details
                }));
                // Commit it
                db.commitChanges();
-               bridge.done('text', 'Updated log "' + name + '"!\n' + details);
+               bridge.done('text', 'Updated log "' + name + '"!' + operator.newline + details);
             }
             else {
                logGnode = new db.Gnode(name, 'doozy.logentry', {
