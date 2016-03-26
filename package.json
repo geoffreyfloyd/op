@@ -5,7 +5,7 @@
     "npm": ">=3.3 <4"
   },
   "dependencies": {
-    "babble": "git+https://github.com/hoomanlogic/babble.git",
+    "babble": "git+https://github.com/hoomanlogic/babble.git#master",
     "babel-polyfill": "6.6.1",
     "babel-runtime": "6.6.1",
     "bluebird": "3.3.4",
@@ -39,6 +39,7 @@
     "react-dom": "0.14.7",
     "react-routing": "0.0.7",
     "source-map-support": "0.4.0",
+    "those": "git+https://github.com/hoomanlogic/those.git#master",
     "whatwg-fetch": "0.11.0"
   },
   "devDependencies": {
