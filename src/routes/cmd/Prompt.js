@@ -1,7 +1,10 @@
 import React from 'react';
-import {Editor, EditorState, RichUtils, CompositeDecorator} from 'draft-js';
+import {Editor, ContentState, EditorState, RichUtils, CompositeDecorator} from 'draft-js';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import styles from './Prompt.scss';
+import requestStore from '../../stores/request-store';
+import babble from 'babble';
+import those from 'those';
 
 const HASHTAG_REGEX = /\#[\w\u0590-\u05ff]+/g;
 
@@ -22,15 +25,27 @@ const HashtagSpan = (props) => {
   return <span {...props} className={styles.hashtag}>{props.children}</span>;
 };
 
-const createNewEditorState = () => {
-   return EditorState.createEmpty(
-      new CompositeDecorator([
-         {
-            strategy: hashtagStrategy,
-            component: withStyles(HashtagSpan, styles),
-         }
-      ])
-   )
+const createNewEditorState = (text) => {
+   if (text) {
+      return EditorState.createWithContent(ContentState.createFromText(text),
+         new CompositeDecorator([
+            {
+               strategy: hashtagStrategy,
+               component: withStyles(HashtagSpan, styles),
+            }
+         ])
+      );
+   }
+   else {
+      return EditorState.createEmpty(
+         new CompositeDecorator([
+            {
+               strategy: hashtagStrategy,
+               component: withStyles(HashtagSpan, styles),
+            }
+         ])
+      );
+   }
 }
 
 export default class Prompt extends React.Component {
@@ -45,13 +60,30 @@ export default class Prompt extends React.Component {
          this.setState({ editorState });
       }
    }
+   
+   componentDidUpdate() {
+      
+   }
+
+   _updateHistory() {
+      var { commitHistory } = this.state;
+      var cmd = this.state.editorState.getCurrentContent().getPlainText().trim();
+      commitHistory = those(commitHistory).flick(cmd).flip();
+      commitHistory.push(cmd);
+      commitHistory.reverse();
+      return commitHistory;
+   }
 
    _onReturn() {
-      var { commitHistory } = this.state;
-      commitHistory.push(this.state.editorState);
+      var commitHistory = this._updateHistory();
+      
+      //
+      var text = this.state.editorState.getCurrentContent().getPlainText('\n');
+      this._handleSendRequest(text);
+      
       this.setState({
          commitHistory: commitHistory,
-         editorState: createNewEditorState()
+         editorState: EditorState.moveFocusToEnd(createNewEditorState())
       });
       return true;
    }
@@ -70,7 +102,7 @@ export default class Prompt extends React.Component {
       if (historyIndex > this.state.commitHistory.length - 1) {
          historyIndex = this.state.commitHistory.length - 1;
       }
-      var editorState = this.state.commitHistory[historyIndex] || createNewEditorState();
+      var editorState = createNewEditorState(this.state.commitHistory[historyIndex]);
       this.setState({
          historyIndex: historyIndex,
          editorState: editorState
@@ -82,11 +114,20 @@ export default class Prompt extends React.Component {
       if (historyIndex < -1) {
          historyIndex = -1;
       }
-      var editorState = this.state.commitHistory[historyIndex] || createNewEditorState();
+      var editorState = createNewEditorState(this.state.commitHistory[historyIndex]);
       this.setState({
          historyIndex: historyIndex,
          editorState: editorState
       });
+   }
+   
+   _handleSendRequest(hoomanInput) {
+      // send request
+      requestStore.send(hoomanInput, this.props.sessionId, this._handleResponseReady);
+   }
+   
+   _handleResponseReady(req) {
+      console.log(req);
    }
 
    render() {

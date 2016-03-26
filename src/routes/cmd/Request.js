@@ -1,5 +1,5 @@
 import React from 'react';
-//import Requests from '../store-helpers/requests';
+import requestStore from '../../stores/request-store';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import styles from './Request.scss';
 //import GooeyHost from '../gooeys/GooeyHost';
@@ -19,7 +19,7 @@ var Request = React.createClass({
      * COMPONENT LIFECYCLE
      *************************************************************/
     componentDidMount: function () {
-        //Requests.subscribe(this.handleStoreUpdate, this.props.data.id);
+        requestStore.subscribe(this.handleStoreUpdate, this.props.data.id);
     },
     componentWillUpdate: function () {
         if (this.refs.responseContainer) {
@@ -39,7 +39,7 @@ var Request = React.createClass({
      *************************************************************/
     handleRequestClick: function () {
         var data = this.props.data;
-        //Requests.repeat(data.id);
+        requestStore.repeat(data.id);
     },
     handleResponseClick: function () {
         var data = this.props.data;

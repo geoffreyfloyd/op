@@ -10,9 +10,12 @@
 import 'babel-polyfill';
 import path from 'path';
 import express from 'express';
+import socketServer from './socket-server';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import expressJwt from 'express-jwt';
+import methodOverride from 'method-override';
+import session from 'express-session';
+//import expressJwt from 'express-jwt';
 import expressGraphQL from 'express-graphql';
 import jwt from 'jsonwebtoken';
 import ReactDOM from 'react-dom/server';
@@ -22,6 +25,9 @@ import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
 import { port, auth, analytics } from './config';
+
+import Operator from './operator';
+import config from '../operator.config';
 
 const server = global.server = express();
 
@@ -40,30 +46,23 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
-//
-// Authentication
-// -----------------------------------------------------------------------------
-server.use(expressJwt({
-   secret: auth.jwt.secret,
-   credentialsRequired: false,
-   /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-   getToken: req => req.cookies.id_token,
-   /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
+server.use(methodOverride());
+server.use(session({
+   resave: false,
+   saveUninitialized: false,
+   secret: config.sessionSecret
 }));
-server.use(passport.initialize());
 
-server.get('/login/facebook',
-   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
-);
-server.get('/login/facebook/return',
-   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-   (req, res) => {
-      const expiresIn = 60 * 60 * 24 * 180; // 180 days
-      const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-      res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-      res.redirect('/');
-   }
-);
+
+//
+// Enable CORS
+// -----------------------------------------------------------------------------
+server.use(function(req, res, next) {
+   res.setHeader('Access-Control-Allow-Origin', '*');
+   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+   next();
+});
 
 //
 // Register API middleware
@@ -76,9 +75,20 @@ server.use('/graphql', expressGraphQL(req => ({
 })));
 
 //
+// Configure Operator core
+// -----------------------------------------------------------------------------
+var operator = new Operator(config, server, socketServer, ensureAuthenticated);
+// Dynamically require and inject operator into plugins
+// config.plugins.forEach(function (req) {
+//    require(req)(operator);
+// });
+require('./apis/cmd-api')(operator);
+require('./apis/gnodes-api')(operator);
+    
+//
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
-server.get('*', async (req, res, next) => {
+server.get('*', ensureAuthenticated, async (req, res, next) => {
    try {
       let statusCode = 200;
       const template = require('./views/index.jade');
@@ -133,3 +143,15 @@ server.listen(port, () => {
    /* eslint-disable no-console */
    console.log(`The server is running at http://localhost:${port}/`);
 });
+
+// Simple route middleware to ensure user is authenticated.
+//   Use this route middleware on any resource that needs to be protected.  If
+//   the request is authenticated (typically via a persistent login session),
+//   the request will proceed.  Otherwise, the user will be redirected to the
+//   login page.
+function ensureAuthenticated(req, res, next) {
+   if (req.isAuthenticated()) { 
+      return next(); 
+   }
+   res.redirect('/auth/google');
+}

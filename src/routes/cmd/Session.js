@@ -1,5 +1,5 @@
 import React from 'react';
-//import requestStore from '../store-helpers/requests';
+import requestStore from '../../stores/request-store';
 import Request from './Request';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import styles from './Session.scss';
@@ -27,7 +27,7 @@ var Session = React.createClass({
     * COMPONENT LIFECYCLE
     *************************************************************/
    componentDidMount: function() {
-      //requestStore.subscribe(this.handleStoreUpdate, null);
+      requestStore.subscribe(this.handleStoreUpdate, null);
    },
 
    handleStoreUpdate: function() {
@@ -36,7 +36,7 @@ var Session = React.createClass({
       });
    },
    handleCloseClick: function() {
-      //requestStore.closeSession(this.props.sessionId);
+      requestStore.closeSession(this.props.sessionId);
    },
    handleCollapseClick: function() {
       this.setState({
@@ -51,7 +51,7 @@ var Session = React.createClass({
    *************************************************************/
    render: function() {
 
-      var requests = []; //requestStore.getRequests(this.props.sessionId);
+      var requests = requestStore.getRequests(this.props.sessionId);
       var titleByRequest, unselectedDom;
       if (requests.length > 0 && requests[0].cmd) {
          titleByRequest = requests[0].cmd;
