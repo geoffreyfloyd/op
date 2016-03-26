@@ -1,3 +1,16 @@
+/**
+ * WAV Logging Info Helpers
+ * @example
+ * var those = require('those');
+ * var wavPath = 'D:\\prj_audio';
+ * getWavLogFolders(wavPath).then(getWavLogs).then(function (logs) {
+ *    those(logs).order('name').flip().forEach(function (log) {
+ *       var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
+ *       console.log(log.name + ' : ' + log.items[0].start + ' : ' + duration.tokens[0].value.toString(':'));
+ *    });
+ * });
+ */
+
 var wavFileInfo = require('./wav');
 var babble = require('babble');
 var path = require('path');
@@ -135,12 +148,3 @@ module.exports = {
    getWavLogFolders: getWavLogFolders
 };
 
-// Sample Use
-// var those = require('those');
-// var wavPath = 'D:\\prj_audio';
-// getWavLogFolders(wavPath).then(getWavLogs).then(function (logs) {
-//    those(logs).order('name').flip().forEach(function (log) {
-//       var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
-//       console.log(log.name + ' : ' + log.items[0].start + ' : ' + duration.tokens[0].value.toString(':'));
-//    });
-// });
