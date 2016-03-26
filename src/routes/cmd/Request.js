@@ -88,8 +88,8 @@ var Request = React.createClass({
         if (!data.response.result) {
             return null;
         }
-        var obj = JSON.parse(data.response.result);
-        var display = obj.mobileview.sections[0].text;
+        var obj = typeof data.response.result === 'string' ? JSON.parse(data.response.result) : data.response.result;
+        //var display = obj.mobileview.sections[0].text;
 
         // for (var prop in obj.query.pages) {
         //     if (obj.query.pages.hasOwnProperty(prop)) {
@@ -97,7 +97,7 @@ var Request = React.createClass({
         //         break;
         //     }
         // }
-        return <span dangerouslySetInnerHTML={{__html: display}}></span>;
+        return <span dangerouslySetInnerHTML={{__html: JSON.stringify(obj)}}></span>;
     },
    //  renderGooeyResponse: function () {
    //      var data = this.props.data;

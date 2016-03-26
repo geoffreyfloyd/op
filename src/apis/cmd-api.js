@@ -1,6 +1,4 @@
-var hooman = require('hooman');
-var createCommandInterface = hooman.createCommandInterface;
-var tokenize = hooman.tokenize;
+import { createCommandInterface, tokenize } from 'hooman';
 var wavLogger = require('../loggers/wav-logger');
 var those = require('those');
 var babble = require('babble');
@@ -65,10 +63,24 @@ module.exports = function(operator) {
         command: function (bridge) {
             var wavPath = 'D:\\prj_audio';
             wavLogger.getWavLogFolders(wavPath).then(wavLogger.getWavLogs).then(function (logs) {
-               console.log(logs);
-               var log = those(logs).order('name').flip().first(); 
-               var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
-               bridge.done('text', log.name + ' : ' + log.items[0].start + ' : ' + duration.tokens[0].value.toString(':'));
+               
+               var pretty = true;
+               if (pretty) {
+                  var result = '';
+                  those(logs).order('name').flip().forEach(function (log) {
+                     var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
+                     result += log.name + " " + duration.tokens[0].value.toString(':') + bridge.operator.newline;
+                  });
+                  bridge.done('text', result);
+               }
+               else { // raw
+                  bridge.done('json', logs);   
+               }
+               
+               //var log = those(logs).order('name').flip().first(); 
+               //var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
+               
+               //bridge.done('text', log.name + ' : ' + log.items[0].start + ' : ' + duration.tokens[0].value.toString(':'));
             });
         }
     });

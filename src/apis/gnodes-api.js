@@ -1,5 +1,4 @@
-var hooman = require('hooman');
-var createCommandInterface = hooman.createCommandInterface;
+import { createCommandInterface } from 'hooman';
 
 module.exports = function(operator) {
         

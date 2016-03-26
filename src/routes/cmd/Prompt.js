@@ -25,27 +25,49 @@ const HashtagSpan = (props) => {
   return <span {...props} className={styles.hashtag}>{props.children}</span>;
 };
 
+const compositeDecorator = new CompositeDecorator([
+   {
+      strategy: hashtagStrategy,
+      component: HashtagSpan
+   }
+]);
+
+// EditorChangeType = (
+//   'undo' |
+//   'redo' |
+//   'change-selection' |
+//   'insert-characters' |
+//   'backspace-character' |
+//   'delete-character' |
+//   'remove-range' |
+//   'split-block' |
+//   'insert-fragment' |
+//   'change-inline-style' |
+//   'change-block-type' |
+//   'apply-entity' |
+//   'reset-block' |
+//   'adjust-depth' |
+//   'spellcheck-change'
+//);
+
 const createNewEditorState = (text) => {
+   var editorState;
    if (text) {
-      return EditorState.createWithContent(ContentState.createFromText(text),
-         new CompositeDecorator([
-            {
-               strategy: hashtagStrategy,
-               component: withStyles(HashtagSpan, styles),
-            }
-         ])
-      );
+      // editorState = EditorState.createWithContent(ContentState.createFromText(text),
+      //    new CompositeDecorator([
+      //       {
+      //          strategy: hashtagStrategy,
+      //          component: withStyles(HashtagSpan, styles),
+      //       }
+      //    ])
+      // );
+      editorState = EditorState.push(EditorState.createEmpty(compositeDecorator), ContentState.createFromText(text), 'insert-characters');
    }
    else {
-      return EditorState.createEmpty(
-         new CompositeDecorator([
-            {
-               strategy: hashtagStrategy,
-               component: withStyles(HashtagSpan, styles),
-            }
-         ])
-      );
+      editorState = EditorState.createEmpty(compositeDecorator);
    }
+   
+   return EditorState.moveFocusToEnd(editorState);
 }
 
 export default class Prompt extends React.Component {
@@ -60,11 +82,7 @@ export default class Prompt extends React.Component {
          this.setState({ editorState });
       }
    }
-   
-   componentDidUpdate() {
-      
-   }
-
+  
    _updateHistory() {
       var { commitHistory } = this.state;
       var cmd = this.state.editorState.getCurrentContent().getPlainText().trim();
@@ -102,10 +120,9 @@ export default class Prompt extends React.Component {
       if (historyIndex > this.state.commitHistory.length - 1) {
          historyIndex = this.state.commitHistory.length - 1;
       }
-      var editorState = createNewEditorState(this.state.commitHistory[historyIndex]);
       this.setState({
          historyIndex: historyIndex,
-         editorState: editorState
+         editorState: createNewEditorState(this.state.commitHistory[historyIndex])
       });
    }
    
@@ -114,10 +131,9 @@ export default class Prompt extends React.Component {
       if (historyIndex < -1) {
          historyIndex = -1;
       }
-      var editorState = createNewEditorState(this.state.commitHistory[historyIndex]);
       this.setState({
          historyIndex: historyIndex,
-         editorState: editorState
+         editorState: createNewEditorState(this.state.commitHistory[historyIndex])
       });
    }
    

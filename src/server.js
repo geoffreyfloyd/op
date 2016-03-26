@@ -83,6 +83,8 @@ var operator = new Operator(config, server, socketServer, ensureAuthenticated);
 //    require(req)(operator);
 // });
 require('./apis/cmd-api')(operator);
+require('./apis/doozy-api')(operator);
+require('./apis/fs-api')(operator);
 require('./apis/gnodes-api')(operator);
     
 //

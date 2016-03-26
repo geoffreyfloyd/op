@@ -1,9 +1,10 @@
 (function(factory) {
     module.exports = exports = factory(
         require('gnodes'),
-        require('uuid')
+        require('uuid'),
+        require('bluebird').promisifyAll(require('fs-extra'))
     );
-}(function (Gnodes, uuid) {
+}(function (Gnodes, uuid, fs) {
 
     var Operator = function (config, express, socketServer, authenticate, renderer, stats) {
         this.express = express;
@@ -12,10 +13,12 @@
         this.renderer = renderer;
         this.stats = stats;
         this.db = null;
+        this.fs = fs;
         this.gooeys = [];
         this.commands = [];
         this.contexts = [];
         this.config = config;
+        this.newline = '\r\n';
         
         this.connectToData();
         this.configurePassport();
