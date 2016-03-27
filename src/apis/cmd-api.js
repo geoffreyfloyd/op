@@ -69,10 +69,10 @@ module.exports = function(operator) {
                   var result = '';
                   those(logs).order('name').flip().forEach(function (log) {
                      var duration = babble.get('durations').parse(String(parseInt(log.duration, 10)) + ' sec');
-                     result += log.name + " " + duration.tokens[0].value.toString(':') + bridge.operator.newline;
+                     result += log.name + " " + duration.tokens[0].value.toString('hm') + bridge.operator.newline;
                      log.items.forEach(function (item) {
                         var d = babble.get('durations').parse(String(parseInt(item.duration, 10)) + ' sec');
-                        result += " - " + d.tokens[0].value.toString(':') + ' @ ' + item.start + bridge.operator.newline;   
+                        result += " - " + d.tokens[0].value.toString('hm') + ' @ ' + item.start + bridge.operator.newline;   
                      });
                      
                   });
