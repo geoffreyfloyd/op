@@ -39,9 +39,11 @@ module.exports = function(operator) {
         },
         command: function (kind, name, state, bridge) {
             try {
-                // SYNTAX: add node doozy.action test-me-out {"name":"test me out", "reason":"test"}
-                bridge.operator.db.add(new bridge.operator.db.Gnode(name, kind, state));
-                bridge.operator.db.commitChanges();
+               bridge.operator.getDb(function (db) {
+                  // SYNTAX: add node doozy.action test-me-out {"name":"test me out", "reason":"test"}
+                  db.add(new db.Gnode(name, kind, state));
+                  db.commitChanges();
+               });
             }
             catch (e) {
                 bridge.fail('Unexpected args');
@@ -68,21 +70,23 @@ module.exports = function(operator) {
         command: function (bridge) {
             // Write all node relationships (and the versions in which they were born) out to the console
             var result = '';
-            bridge.operator.db.allOf('doozy.tag').forEach(function (gnode) {
-                result += gnode.kind + ':' + gnode.tag + ' is at Version ' + gnode.version + ':' + JSON.stringify(gnode.state).replace(/,/g, ',\r\n    ').replace(/\{/g, '{\r\n').replace(/\}/g, '\r\n}') + '\r\n';
-                gnode.children().forEach(function (gnapse) {
-                    //result += '- is parent of ' + gnapse.getTarget().kind + ':' + gnapse.getTarget().tag + ' as of Versions ' + gnapse.originVersion + ':' + gnapse.targetVersion + '\r\n';
-                });
-                gnode.siblings().forEach(function (gnapse) {
-                    //result += '- is sibling of ' + gnapse.getTarget().kind + ':' + gnapse.getTarget().tag + ' as of Versions ' + gnapse.originVersion + ':' + gnapse.targetVersion + '\r\n';
-                });
-                gnode.parents().forEach(function (gnapse) {
-                    //result += '- is child of ' + gnapse.getTarget().kind + ':' + gnapse.getTarget().tag + ' as of Versions ' + gnapse.originVersion + ':' + gnapse.targetVersion + '\r\n';
-                });
+            bridge.operator.getDb(function (db) {
+               db.allOf('doozy.tag').forEach(function (gnode) {
+                  result += gnode.kind + ':' + gnode.tag + ' is at Version ' + gnode.version + ':' + JSON.stringify(gnode.state).replace(/,/g, ',\r\n    ').replace(/\{/g, '{\r\n').replace(/\}/g, '\r\n}') + '\r\n';
+                  // gnode.children().forEach(function (gnapse) {
+                  //    result += '- is parent of ' + gnapse.getTarget().kind + ':' + gnapse.getTarget().tag + ' as of Versions ' + gnapse.originVersion + ':' + gnapse.targetVersion + '\r\n';
+                  // });
+                  // gnode.siblings().forEach(function (gnapse) {
+                  //    result += '- is sibling of ' + gnapse.getTarget().kind + ':' + gnapse.getTarget().tag + ' as of Versions ' + gnapse.originVersion + ':' + gnapse.targetVersion + '\r\n';
+                  // });
+                  // gnode.parents().forEach(function (gnapse) {
+                  //    result += '- is child of ' + gnapse.getTarget().kind + ':' + gnapse.getTarget().tag + ' as of Versions ' + gnapse.originVersion + ':' + gnapse.targetVersion + '\r\n';
+                  // });
+               });
+               console.log(result);
+               //console.log(bridge.operator.db.allOf('doozy.tag').length);
+               bridge.done('text', result);
             });
-            console.log(result);
-            //console.log(bridge.operator.db.allOf('doozy.tag').length);
-            bridge.done('text', result);
         }
     });
     
