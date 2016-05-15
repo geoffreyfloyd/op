@@ -116,11 +116,9 @@ export default class ComicPane extends React.Component {
 
 const styles = {
     pane: {
-        // position: 'relative',
         height: '20rem',
         width: '30rem',
         margin: '0.25rem',
-        // border: '1px solid black'
         background: '#ddd',
     },
     pan: { 
