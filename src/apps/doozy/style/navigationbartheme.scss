@@ -1,0 +1,29 @@
+.nav li {
+    font-size: 20px;
+}
+
+.navbar-hl-theme {
+    background-color: #222;
+}
+
+.navbar-hl-theme .navbar-nav > li > a {
+    text-shadow: 0 -1px 0 $clrNavBarGradient;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #b2b2b2;
+}
+
+.navbar-hl-theme .navbar-nav > li > a:hover,
+.navbar-hl-theme .navbar-nav > li > a:focus {
+    background-color: #444;
+}
+
+
+.navbar-hl-theme .navbar-nav > .open > a,
+.navbar-hl-theme .navbar-nav > .open > a:hover,
+.navbar-hl-theme .navbar-nav > .open > a:focus {
+    color: $clrBrandGreenGradient;
+}
+
+.navbar-hl-theme .navbar-nav > li > a.active {
+    color: $clrBrandGreenGradient;
+}

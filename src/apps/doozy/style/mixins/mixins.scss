@@ -1,0 +1,100 @@
+@define-mixin linearGradient($from, $to, $default, $color1, $stop1, $color2, $stop2) {
+  background-color: $default;
+  background-image: -webkit-gradient(linear, left $from, left $to, color-stop($stop1, $color1), color-stop($stop2 $color2));
+  background-image: -webkit-linear-gradient($from, $color1 $stop1, $color2 $stop2);
+  background-image: -moz-linear-gradient($from, $color1 $stop1, $color2 $stop2);
+  background-image: -ms-linear-gradient($from, $color1 $stop1, $color2 $stop2);
+  background-image: -o-linear-gradient($from, $color1 $stop1, $color2 $stop2);
+  background-image: linear-gradient($from, $color1 $stop1, $color2 $stop2);
+}
+
+@define-mixin linear-gradient($from, $to, $default, $color1, $stop1, $color2, $stop2, $color3, $stop3, $color4, $stop4) {
+    background-color: $default;
+    background-image: -webkit-gradient(linear, left $from, left $to, color-stop($stop1, $color1), color-stop($stop2 $color2), color-stop($stop3 $color3), color-stop($stop4 $color4));
+    background-image: -webkit-linear-gradient($from, $color1 $stop1, $color2 $stop2, $color3 $stop3, $color4 $stop4);
+    background-image: -moz-linear-gradient($from, $color1 $stop1, $color2 $stop2, $color3 $stop3, $color4 $stop4);
+    background-image: -ms-linear-gradient($from, $color1 $stop1, $color2 $stop2, $color3 $stop3, $color4 $stop4);
+    background-image: -o-linear-gradient($from, $color1 $stop1, $color2 $stop2, $color3 $stop3, $color4 $stop4);
+    background-image: linear-gradient($from, $color1 $stop1, $color2 $stop2, $color3 $stop3, $color4 $stop4);
+}
+/* Flex Vendor Prefixes */
+@define-mixin flexbox($flexflow: row,nowrap) {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: $flexflow;
+            flex-flow: $flexflow;
+}
+
+@define-mixin flex($values) {
+    -webkit-box-flex: $values;
+       -moz-box-flex:  $values;
+        -webkit-flex:  $values;
+            -ms-flex:  $values;
+                flex:  $values;
+}
+
+@define-mixin order($val) {
+    -webkit-box-ordinal-group: $val;  
+       -moz-box-ordinal-group: $val;     
+               -ms-flex-order: $val;     
+                -webkit-order: $val;  
+                        order: $val;
+}
+
+/* Transition Vendor Prefixes */
+@define-mixin transition($arg1, $arg2) {
+    -webkit-transition: $arg1, $arg2;
+    -moz-transition: $arg1, $arg2;
+    -o-transition: $arg1, $arg2;
+    transition: $arg1, $arg2;
+}
+@define-mixin transition($transition) {
+  -webkit-transition: $transition;
+       -o-transition: $transition;
+          transition: $transition;
+}
+@define-mixin transition-property($transition-property) {
+  -webkit-transition-property: $transition-property;
+          transition-property: $transition-property;
+}
+@define-mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+          transition-delay: $transition-delay;
+}
+@define-mixin transition-duration($transition-duration) {
+  -webkit-transition-duration: $transition-duration;
+          transition-duration: $transition-duration;
+}
+@define-mixin transition-timing-function($timing-function) {
+  -webkit-transition-timing-function: $timing-function;
+          transition-timing-function: $timing-function;
+}
+@define-mixin transition-transform($transition) {
+  -webkit-transition: -webkit-transform $transition;
+     -moz-transition: -moz-transform $transition;
+       -o-transition: -o-transform $transition;
+          transition: transform $transition;
+}
+
+/* Bootstrap */
+@define-mixin bs-gradient-msdisabled($color1, $color2, $colorStr1, $colorStr2) {
+  background-image: -webkit-linear-gradient(top, $color1 0, $color2 100%);
+  background-image:      -o-linear-gradient(top, $color1 0, $color2 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from($color1), to($color2));
+  background-image:         linear-gradient(to bottom, $color1 0, $color2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$colorStr1, endColorstr=$colorStr2, GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  background-repeat: repeat-x;
+}
+
+@define-mixin bs-gradient($color1,$color2,$colorStr1,$colorStr2) {
+  background-image: -webkit-linear-gradient(top, $color1 0, $color2 100%);
+  background-image:      -o-linear-gradient(top, $color1 0, $color2 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from($color1), to($color2));
+  background-image:         linear-gradient(to bottom, $color1 0, $color2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$colorStr1, endColorstr=$colorStr2, GradientType=0);
+  background-repeat: repeat-x;
+}

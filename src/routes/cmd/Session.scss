@@ -1,0 +1,26 @@
+@import "../../components/theme.scss";
+
+.appcontainer {
+   margin-bottom: 10px;
+   overflow-y: auto;
+   overflow-x: hidden;
+   border: 2px $clrLowContrast solid;
+   border-radius: 10px;
+   padding: 0 10px 5px 10px;
+}
+
+.close {
+   color: $clrLowContrast
+}
+
+.close:hover {
+   color: $clrError
+}
+
+.button {
+   color: $clrLowContrast
+}
+
+.button:hover {
+   color: $clrKeyword
+}

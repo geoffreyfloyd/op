@@ -1,13 +1,8 @@
-# Git uses this file to determine which files and directories to ignore
-# https://help.github.com/articles/ignoring-files
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
 
 build
-bower_components
 node_modules
+ncp-debug.log
 npm-debug.log
-
-## WebStrom
-.idea/
-*.ipr
-*.iws
-*.iml
+operator.config.js

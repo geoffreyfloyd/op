@@ -1,0 +1,50 @@
+@import "../../components/theme.scss";
+
+.hashtag {
+   border-radius: 0.3rem;
+   padding: 0.1rem 0.3rem 0;
+   background-color: #fff;
+   color: #d00;
+   font-weight: bold;
+}
+
+.inputcontainer {
+   width: 88%;
+   margin-left: 10px;
+   margin-top: 10px;
+   margin-left: 10px;
+   border: 0;
+   color: #ddd;
+   background-color: #222;
+   display: inline-block;
+   font-family: "Courier New", Courier, monospace;
+   font-size: 1.4em;
+   border-radius: 10px;
+   padding-left: 10px;
+}
+
+.iinputcontainer:focus {
+	border: 0;
+   outline: 0;
+}
+
+.duration {
+   border-radius: 5px;
+   border: 1px solid #444;
+   background-color: #327B90;
+   color: #e4e4e4;
+}
+
+.action {
+   border-radius: 5px;
+   border: 1px solid #444;
+   background-color: #CC184C;
+   color: #e4e4e4;
+}
+
+.measure {
+   border-radius: 5px;
+   border: 1px solid #444;
+   background-color: #444;
+   color: #e4e4e4;
+}
