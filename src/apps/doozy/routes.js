@@ -43,11 +43,13 @@ export const ActionsRoute = {
 
 import bio from './ui/comic/strips/bio';
 import clips from './ui/comic/strips/movie-quotes';
-import music from './ui/comic/strips/americana';
+import covers from './ui/comic/strips/covers';
+import fingerstyle from './ui/comic/strips/fingerstyle';
 var comicKeys = {
    bio: bio,
    clips: clips,
-   music: music
+   covers: covers,
+   fingerstyle: fingerstyle,
 }
 export const ComicRoute = {
    path: '/feed/:id',

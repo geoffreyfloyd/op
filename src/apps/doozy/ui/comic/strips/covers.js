@@ -27,27 +27,41 @@ var strip = [
       ]
    },
    {
-      caption: 'Rylynn by Andy McKee',
+      caption: 'You Were Meant For Me by Jewel',
       videos: [
          {
-            src: 'https://www.youtube.com/watch?v=JsD6uEZsIsU',
-         }
-      ]
-   },
-   {
-      caption: 'Rock With You (Cover) by Adam Rafferty',
-      videos: [
-         {
-            src: 'https://www.youtube.com/watch?v=sWz9y9k7DIo',
-         }
-      ]
-   },
-   {
-      caption: 'Chet Atkins & Mark Knopfler',
-      videos: [
-         {
-            src: 'https://www.youtube.com/watch?v=sSdThfseSkQ',
+            src: 'https://www.youtube.com/watch?v=fGj77BrEgj4',
             start: 164,
+         }
+      ],
+      refs: [
+         {
+            caption: 'tabs',
+            src: 'https://tabs.ultimate-guitar.com/j/jewel/you_were_meant_for_me_crd.htm',
+         }
+      ]
+   },
+   {
+      caption: 'More Than Words by Extreme',
+      videos: [
+         {
+            src: 'https://www.youtube.com/watch?v=UrIiLvg58SY',
+            start: 164,
+         }
+      ],
+      refs: [
+         {
+            caption: 'tabs',
+            src: 'https://tabs.ultimate-guitar.com/e/extreme/more_than_words_tab.htm'
+         }
+      ]
+   },
+   {
+      caption: 'Graveyard by Devil Makes Three',
+      videos: [
+         {
+            src: 'https://www.youtube.com/watch?v=38XLg2zsA2Q',
+            start: 17,
          }
       ]
    }
