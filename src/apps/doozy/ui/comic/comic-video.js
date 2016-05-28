@@ -4,7 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const parseYouTube = /(https?:\/\/(www.)?youtube.com(\/embed\/)?(\/watch\?v=)?)?([a-zA-Z0-9]+)/;
+const parseYouTube = /(https?:\/\/(www.)?youtube.com(\/embed\/)?(\/watch\?v=)?)?([a-zA-Z0-9_\-]+)/;
 
 export default class ComicVideo extends React.Component {
 

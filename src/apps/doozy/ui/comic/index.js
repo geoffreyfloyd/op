@@ -2,6 +2,7 @@ import React from 'react';
 import ComicPane from './comic-pane';
 import ComicImage from './comic-image';
 import ComicVideo from './comic-video';
+import ComicText from './comic-text';
 
 class ComicStrip extends React.Component {
    constructor (props) {
@@ -65,6 +66,10 @@ class ComicStrip extends React.Component {
       return <ComicImage {...image} />;
    }
    
+   renderText(text) {
+      return <ComicText {...text} />
+   }
+   
    render() {
       return (
          <div style={styles[this.props.mode]}>
@@ -72,6 +77,7 @@ class ComicStrip extends React.Component {
                var images = [];
                var captions = [];
                var videos = [];
+               var texts = [];
                
                if (node.videos && node.videos.length) {
                   videos = node.videos.map(vid => this.renderVideo(vid));
@@ -79,13 +85,16 @@ class ComicStrip extends React.Component {
                if (node.images && node.images.length) {
                   images = node.images.map(img => this.renderImage(img));
                }
+               if (node.texts && node.texts.length) {
+                  texts = node.texts.map(txt => this.renderText(txt));
+               }
                
                return <ComicPane 
                         uri={node.uri || String(index)} 
                         caption={node.caption} 
                         onClick={this.handlePaneActivate.bind(null, index)} 
                         onDone={this.handlePaneDone.bind(null, index)}
-                        mode={this.props.mode} active={index === this.state.active}>{[...images, ...videos, ...captions]}</ComicPane>;
+                        mode={this.props.mode} active={index === this.state.active}>{[...images, ...videos, ...texts, ...captions]}</ComicPane>;
             })}
          </div>
       );
@@ -93,11 +102,23 @@ class ComicStrip extends React.Component {
 }
 
 export default function Presenter (props) {
-   return (
-      <div style={styles.body}>
-         <ComicStrip mode="feed" strip={props.list} />
-      </div>
-   );
+   if (props.index) {
+      return (
+         <div style={styles.body}>
+            {Object.keys(props.index).map(key => {
+               return <ComicStrip mode="wrap" strip={props.index[key]} />   
+            })}
+         </div>
+      ); 
+   }
+   else {
+      return (
+         <div style={styles.body}>
+            <ComicStrip mode="feed" strip={props.list} />
+         </div>
+      );   
+   }
+   
 }
 
 const styles = {

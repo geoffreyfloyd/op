@@ -3,6 +3,7 @@ import ComicAnimation from './comic-animation';
 import ComicImage from './comic-image';
 import ComicCaption from './comic-caption';
 import ComicVideo from './comic-video';
+import ComicText from './comic-text';
 import those from 'those';
 import ReactDOM from 'react-dom';
 
@@ -39,7 +40,7 @@ export default class ComicPane extends React.Component {
     arrangeMedia () {
         var media;
         var images = [];
-        var text = [];
+        var texts = [];
         var videos = [];
         
         // Inject click handler to manage media focus
@@ -59,6 +60,9 @@ export default class ComicPane extends React.Component {
             else if (child.type === ComicVideo) {
                 kind = 'video';
             }
+            else if (child.type === ComicText) {
+                kind = 'text';
+            }
             props.onClick = this.handleMediaClick.bind(null, kind);
             
             return React.cloneElement(child, props)
@@ -72,19 +76,23 @@ export default class ComicPane extends React.Component {
             else if (child.type === ComicVideo) {
                 videos.push(child);
             }
+            else if (child.type === ComicText) {
+                texts.push(child);
+            }
         });
 
         if (images.length > 1) {
             media = [
                 (<ComicAnimation fps={0.5}>{images}</ComicAnimation>),
                 ...videos,
-                ...text
+                ...texts,
             ];
         }
         else {
             media = [
                 ...images,
                 ...videos,
+                ...texts,
             ];    
         }
         

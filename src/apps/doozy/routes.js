@@ -4,6 +4,7 @@ import fetch from '../../core/fetch';
 import Action from './ui/action';
 import Actions from './ui/actions';
 import Comic from './ui/comic';
+import strips from './ui/comic/strips';
 import LogEntry from './ui/logentry';
 import LogEntries from './ui/logentries';
 
@@ -41,21 +42,19 @@ export const ActionsRoute = {
    }
 };
 
-import bio from './ui/comic/strips/bio';
-import clips from './ui/comic/strips/movie-quotes';
-import covers from './ui/comic/strips/covers';
-import fingerstyle from './ui/comic/strips/fingerstyle';
-var comicKeys = {
-   bio: bio,
-   clips: clips,
-   covers: covers,
-   fingerstyle: fingerstyle,
-}
 export const ComicRoute = {
-   path: '/feed/:id',
+   path: '/feeds/:id',
    action: async (state) => {
-      state.context.onSetTitle('Feed: ' + state.params.id);
-      return <Comic list={comicKeys[state.params.id]} />;
+      state.context.onSetTitle(state.params.id);
+      return <Comic list={strips[state.params.id]} />;
+   }
+};
+
+export const ComicsRoute = {
+   path: '/feeds',
+   action: async (state) => {
+      state.context.onSetTitle('Feeds');
+      return <Comic index={strips} mode="wrap" />;
    }
 };
 
