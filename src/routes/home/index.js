@@ -8,13 +8,32 @@
  */
 
 import React from 'react';
-import Home from './Home';
+import Home from './Links';
 import fetch from '../../core/fetch';
 
 export const path = '/';
 export const action = async (state) => {
-   const response = await fetch('/graphql?query={news{title,link,contentSnippet}}');
-   const { data } = await response.json();
-   state.context.onSetTitle('React.js Starter Kit');
-   return <Home news={data.news} />;
+   // const response = await fetch('/graphql?query={news{title,link,contentSnippet}}');
+   // const { data } = await response.json();
+   
+   var links = [
+      {
+         title: 'Cmd Prompt',
+         link: '/cmd'
+      },
+      {
+         title: 'Feeds',
+         link: '/feeds'
+      },
+      {
+         title: 'Actions',
+         link: '/actions'
+      },
+      {
+         title: 'Logs',
+         link: '/logs'
+      },
+   ];
+   state.context.onSetTitle('HoomanLogic Home');
+   return <Home links={links} />;
 };

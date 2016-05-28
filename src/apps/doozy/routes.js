@@ -46,7 +46,7 @@ export const ComicRoute = {
    path: '/feeds/:id',
    action: async (state) => {
       state.context.onSetTitle(state.params.id);
-      return <Comic list={strips[state.params.id]} />;
+      return <Comic content={strips[state.params.id]} />;
    }
 };
 
@@ -54,7 +54,7 @@ export const ComicsRoute = {
    path: '/feeds',
    action: async (state) => {
       state.context.onSetTitle('Feeds');
-      return <Comic index={strips} mode="wrap" />;
+      return <Comic index={strips} />;
    }
 };
 

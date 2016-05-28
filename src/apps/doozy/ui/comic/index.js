@@ -102,11 +102,12 @@ class ComicStrip extends React.Component {
 }
 
 export default function Presenter (props) {
+   var { content, index } = props;
    if (props.index) {
       return (
          <div style={styles.body}>
-            {Object.keys(props.index).map(key => {
-               return <ComicStrip mode="wrap" strip={props.index[key]} />   
+            {Object.keys(index).map(key => {
+               return <ComicStrip mode="wrap" strip={index[key]} />   
             })}
          </div>
       ); 
@@ -114,7 +115,7 @@ export default function Presenter (props) {
    else {
       return (
          <div style={styles.body}>
-            <ComicStrip mode="feed" strip={props.list} />
+            <ComicStrip mode="feed" strip={content} />
          </div>
       );   
    }
