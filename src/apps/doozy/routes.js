@@ -46,7 +46,15 @@ export const ComicRoute = {
    path: '/feeds/:id',
    action: async (state) => {
       state.context.onSetTitle(state.params.id);
-      return <Comic content={strips[state.params.id]} />;
+      var content = strips[state.params.id];
+      var props = {};
+      if (!content) {
+         props.index = strips;
+      }
+      else {
+         props.content = content;
+      }
+      return <Comic {...props} />;
    }
 };
 
