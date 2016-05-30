@@ -20,7 +20,7 @@ module.exports = function (operator) {
             // Array filtered to single action
             return new Promise(function (resolve, reject) {
                
-               var logentry = get(operator, args.id, 'logentry');
+               var logentry = get(operator, args.id, 'doozy.logentry');
                if (logentry) {
                   logentry = [logentry];
                }
@@ -33,7 +33,7 @@ module.exports = function (operator) {
             }
             
             lastFetchTask = new Promise(function (resolve, reject) {
-               var logentries = getAll(operator, 'logentry');
+               var logentries = getAll(operator, 'doozy.logentry');
                
                if (args && args.tags) {
                   those(logentries).where(function (logentry) {

@@ -70,7 +70,7 @@ module.exports = function(operator) {
 
                db.add(logGnode);
                
-               var tagGnode = db.get('doozy.tag.' + tag);
+               var tagGnode = db.get('tag.' + tag);
                if (tagGnode) {
                   logGnode.connect(tagGnode, db.RELATION.ASSOCIATE);
                }
@@ -149,7 +149,7 @@ module.exports = function(operator) {
                   
                   db.add(actionGnode);
                   
-                  var tagGnode = db.get('doozy.tag.' + tag);
+                  var tagGnode = db.get('tag.' + tag);
                   if (tagGnode) {
                      actionGnode.connect(tagGnode, db.RELATION.ASSOCIATE);
                   }

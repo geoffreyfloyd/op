@@ -9,6 +9,7 @@
 
 import webpack from 'webpack';
 import webpackConfig from './webpack.config';
+import replace from 'replace';
 
 /**
  * Creates application bundles from the source files.
@@ -21,6 +22,14 @@ function bundle() {
       }
 
       console.log(stats.toString(webpackConfig[0].stats));
+      
+        replace({
+          regex: ' 3000;',
+          replacement:  ' 80;',
+          paths: ['build/server.js'],
+          recursive: false,
+          silent: false,
+        });
       return resolve();
     });
   });

@@ -81,7 +81,7 @@
     
     function importTags (table) {
         table.forEach(function (row) {
-            var gnode = new db.Gnode(db, row.Name, 'doozy.tag', camelize(row));
+            var gnode = new db.Gnode(db, row.Name, 'tag', camelize(row));
             gnode.born = gnode.state.created || gnode.state.enlist || gnode.born;
             db.add(gnode);
         });
@@ -93,7 +93,7 @@
     function importActionsTags (table) {
         table.forEach(function (row) {
             var node1 = db.find({ id: row.ActionId }, 'doozy.action').first();
-            var node2 = db.find({ id: row.TagId }, 'doozy.tag').first();
+            var node2 = db.find({ id: row.TagId }, 'tag').first();
             if (node1 && node2) {
                 console.log('Connecting nodes: ' + node1.tag + ':' + node2.tag);
                 node2.connect(node1, db.RELATION.ASSOCIATE);
@@ -127,7 +127,7 @@
     function importLogEntriesTags (table) {
         table.forEach(function (row) {
             var node1 = db.find({ id: row.LogEntryId }, 'doozy.logentry').first();
-            var node2 = db.find({ id: row.TagId }, 'doozy.tag').first();
+            var node2 = db.find({ id: row.TagId }, 'tag').first();
             if (node1 && node2) {
                 console.log('Connecting nodes: ' + node1.tag + ':' + node2.tag);
                 node2.connect(node1, db.RELATION.ASSOCIATE);

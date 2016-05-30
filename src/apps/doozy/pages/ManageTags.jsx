@@ -20,7 +20,7 @@
             host.go('/doozy');
         },
         handleTagClick: function (tag) {
-            host.go('/doozy/tag/' + tag.id);
+            host.go('/tag/' + tag.id);
         },
 
         /*************************************************************

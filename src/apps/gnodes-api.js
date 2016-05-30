@@ -91,7 +91,7 @@ module.exports = function(operator) {
          // Write all node relationships (and the versions in which they were born) out to the console
          var result = '';
          bridge.operator.getDb(function(db) {
-            db.allOf('doozy.tag').forEach(function(gnode) {
+            db.allOf('tag').forEach(function(gnode) {
                result += gnode.kind + ':' + gnode.tag + ' is at Version ' + gnode.version + ':' + JSON.stringify(gnode.state).replace(/,/g, ',\r\n    ').replace(/\{/g, '{\r\n').replace(/\}/g, '\r\n}') + '\r\n';
                // gnode.children().forEach(function (gnapse) {
                //    result += '- is parent of ' + gnapse.getTarget().kind + ':' + gnapse.getTarget().tag + ' as of Versions ' + gnapse.originVersion + ':' + gnapse.targetVersion + '\r\n';
@@ -104,7 +104,7 @@ module.exports = function(operator) {
                // });
             });
             console.log(result);
-            //console.log(bridge.operator.db.allOf('doozy.tag').length);
+            //console.log(bridge.operator.db.allOf('tag').length);
             bridge.done('text', result);
          });
       }

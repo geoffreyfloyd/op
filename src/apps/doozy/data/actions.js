@@ -18,7 +18,7 @@ module.exports = function (operator) {
             // Array filtered to single action
             return new Promise(function (resolve, reject) {
                
-               var action = get(operator, args.id, 'action');
+               var action = get(operator, args.id, 'doozy.action');
                if (action) {
                   action = [action];
                }
@@ -31,7 +31,7 @@ module.exports = function (operator) {
             }
             
             lastFetchTask = new Promise(function (resolve, reject) {
-               var actions = getAll(operator, 'action');
+               var actions = getAll(operator, 'doozy.action');
                resolve(actions);
             })
             .finally(() => {

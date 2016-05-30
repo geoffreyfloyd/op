@@ -41,7 +41,7 @@ var FocusListItem = React.createClass({
             <li key={data.id}>
                 <a onClick={this.handleFocusClick.bind(null, data)} style={menuItemStyle}>
                     <div>
-                        <img style={imageStyle} src={'/my/doozy/tag/' + data.name + '/icon.png'} />
+                        <img style={imageStyle} src={'/my/tag/' + data.name + '/icon.png'} />
                         <div style={{display: 'inline-block', verticalAlign: 'top'}}>
                             <div>{this.calcFocusTitle(data)}</div>
                             <div style={{fontSize: '14px'}}>{'last acted '}<RelativeTime accuracy="d" isoTime={latestDate} /></div>

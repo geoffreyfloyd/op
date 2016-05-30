@@ -30,7 +30,7 @@
          * EVENT HANDLING
          *************************************************************/
         handleCancelClick: function () {
-            host.go('/doozy/tags');
+            host.go('/tags');
         },
         handleChange: function (event) {
             if (event.target === this.refs.name) {
@@ -47,7 +47,7 @@
             host.prompt('Are you sure you want to delete this tag?\n\nIf so, type DELETE and hit enter', function (response) {
                 if ((response || '').toLowerCase() === 'delete') {
                     tagStore.destroy(this.props.id);
-                    host.go('/doozy/tags');
+                    host.go('/tags');
                 }
             }.bind(this));
         },
@@ -58,7 +58,7 @@
             else {
                 tagStore.create(this.state);
             }
-            host.go('/doozy/tags');
+            host.go('/tags');
         },
         handleModelUpdate: function (model) {
             if (!model) {

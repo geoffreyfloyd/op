@@ -49,7 +49,7 @@ var modelProps = {
 };
 
 var modelStraps = {
-   action: function (gnode, db) {
+   'doozy.action': function (gnode, db) {
          var strap = {};
 
          /**
@@ -62,7 +62,7 @@ var modelStraps = {
             */
          // calc tags data
          var tags = [];
-         gnode.siblings('doozy.tag').forEach(function (gnapse) {
+         gnode.siblings('tag').forEach(function (gnapse) {
             tags.push(getModel(gnapse.getTarget(), db, 'tag'));
          });
          strap.tags = tags;
@@ -79,7 +79,7 @@ var modelStraps = {
 
          return strap;
    },
-   logentry: function (gnode, db) {
+   'doozy.logentry': function (gnode, db) {
          var strap = {};
 
          // calc tags data
@@ -87,7 +87,7 @@ var modelStraps = {
          var tags = [];
          
          // Add direct tags
-         gnode.siblings('doozy.tag').forEach(function (tagGnapse) {
+         gnode.siblings('tag').forEach(function (tagGnapse) {
             var tagGnode = tagGnapse.getTarget()
             if (tagGnode) {
                tags.push(getModel(tagGnode, db, 'tag'));
@@ -103,7 +103,7 @@ var modelStraps = {
             var actionGnode = actionGnapse.getTarget();
             if (actionGnode) {
                // Get model from gnode
-               var action = getModel(actionGnode, db, 'action');
+               var action = getModel(actionGnode, db, 'doozy.action');
                
                // Add action
                actions.push(action);
@@ -129,7 +129,7 @@ var modelStraps = {
          strap.kind = gnode.state.entry;
          return strap;
    },
-   planstep: function (gnode, db) {
+   'doozy.planstep': function (gnode, db) {
          var strap = {};
          // Get plan (may be parent or associate)
          var plan = gnode.related('doozy.plan').first();
@@ -154,10 +154,10 @@ var modelStraps = {
             var tagGnode = gnapse.getTarget();
             if (tagGnode) {
                tags.push(tagGnode.tag);
-               tagGnode.parents('doozy.tag').forEach(getAllParents);
+               tagGnode.parents('tag').forEach(getAllParents);
             }
          };
-         gnode.parents('doozy.tag').forEach(getAllParents);
+         gnode.parents('tag').forEach(getAllParents);
          strap.descendantOf = tags;
          return strap;
    }
@@ -177,7 +177,7 @@ var stripModel = function (model, stripOut) {
 export async function getAll (operator, kind) {
    var result = [];
    await operator.getDb(function (db) {
-      db.allOf('doozy.' + kind).forEach(function (gnode) {
+      db.allOf(kind).forEach(function (gnode) {
          var model = getModel(gnode, db, kind);
          result.push(model);
       });
@@ -188,7 +188,7 @@ export async function getAll (operator, kind) {
 export async function get (operator, id, kind) {
    var result;
    await operator.getDb(function (db) {
-      var gnode = db.get('doozy.' + kind + '.' + id);
+      var gnode = db.get(kind + '.' + id);
       if (gnode) {
          var model = getModel(gnode, db, kind);
          result = model;
@@ -212,7 +212,7 @@ export function create (operator, kind, model, createConnections, generateTag) {
          }
 
          // Strip model to state and create new node from it
-         var gnode = new db.Gnode(db, name, 'doozy.' + kind, stripModel(model, modelProps[kind]));
+         var gnode = new db.Gnode(db, name, kind, stripModel(model, modelProps[kind]));
 
          // Add node to db
          db.add(gnode);
@@ -237,7 +237,7 @@ export function update (operator, kind, model, updateConnections) {
    return new Promise(function (resolve) {
       operator.getDb(function (db) {
          // Get gnode from db
-         var gnode = db.find(model.id, 'doozy.' + kind).first();
+         var gnode = db.find(model.id, kind).first();
          if (gnode) {
 
             // Strip model to state and update existing gnode's state
@@ -264,7 +264,7 @@ export function update (operator, kind, model, updateConnections) {
 export function remove (operator, kind, id, beforeRemove) {
    return new Promise(function (resolve) {
       operator.getDb(function (db) {
-         var gnode = db.find(id, 'doozy.' + kind).first();
+         var gnode = db.find(id, kind).first();
          if (gnode) {
             if (beforeRemove) {
                beforeRemove(gnode, db);

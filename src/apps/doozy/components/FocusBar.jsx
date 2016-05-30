@@ -57,7 +57,7 @@ var FocusBar = React.createClass({
                 <a onClick={this.handleFocusClick.bind(null, f)} style={styles.menuItem}>
                     <div>
                         <div style={{display: 'inline', verticalAlign: 'inherit'}}>
-                            <img style={styles.buttonImage} src={'/my/doozy/tag/icon.png'} />
+                            <img style={styles.buttonImage} src={'/my/tag/icon.png'} />
                         </div>
                         <div style={{display: 'inline-block'}}>Clear Focus</div>
                     </div>
@@ -68,12 +68,12 @@ var FocusBar = React.createClass({
         var button = null;
         if (currentFocus && currentFocus.name !== 'nofocus') {
             button = (
-                <div onClick={this.handleFocusMenuClick}><img style={styles.buttonImage} src={'/my/doozy/tag/' + currentFocus.id + '/icon.png'} title={currentFocus.kind + ': ' + currentFocus.name} /></div>
+                <div onClick={this.handleFocusMenuClick}><img style={styles.buttonImage} src={'/my/tag/' + currentFocus.id + '/icon.png'} title={currentFocus.kind + ': ' + currentFocus.name} /></div>
             );
         }
         else {
             button = (
-                <div onClick={this.handleFocusMenuClick}><img style={styles.buttonImage} src={'/my/doozy/tag/icon.png'} /></div>
+                <div onClick={this.handleFocusMenuClick}><img style={styles.buttonImage} src={'/my/tag/icon.png'} /></div>
             );
         }
 
