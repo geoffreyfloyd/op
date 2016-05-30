@@ -3,10 +3,10 @@
 
 module.exports = function(operator) {
    // Add GraphQL Data Schema
-   // operator.addSchema({
-   //    strips: require('./data/queries/strips')(operator),
-   //    bits: require('./data/queries/bits')(operator),
-   // });
+   operator.addSchema({
+      strips: require('./data/queries/strips')(operator),
+      bits: require('./data/queries/bits')(operator),
+   });
    
    // API/CMD Hooks
    // api(operator);

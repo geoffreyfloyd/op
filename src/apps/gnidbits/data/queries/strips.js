@@ -18,7 +18,7 @@ module.exports = function (operator) {
             // Array filtered to single strip
             return new Promise(function (resolve, reject) {
                
-               var strip = get(operator, args.id, 'gnidstrips.strip');
+               var strip = get(operator, args.id, 'gnidbits.strip');
                if (strip) {
                   strip = [strip];
                }
@@ -31,7 +31,7 @@ module.exports = function (operator) {
             }
             
             lastFetchTask = new Promise(function (resolve, reject) {
-               var strips = getAll(operator, 'gnidstrips.strip');
+               var strips = getAll(operator, 'gnidbits.strip');
                resolve(strips);
             })
             .finally(() => {

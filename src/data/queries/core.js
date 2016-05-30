@@ -40,12 +40,14 @@ var getModel = function (gnode, db, kind) {
 };
 
 var modelProps = {
-   action: ['id', 'version', 'isNew', 'lastPerformed', 'tags'],
-   logentry: ['id', 'version', 'isNew','actions','tags'],
-   plan: ['id', 'version', 'isNew'],
-   planstep: ['id', 'version', 'isNew','planId','parentId'],
+   'doozy.action': ['id', 'version', 'isNew', 'lastPerformed', 'tags'],
+   'doozy.logentry': ['id', 'version', 'isNew','actions','tags'],
+   'doozy.plan': ['id', 'version', 'isNew'],
+   'doozy.planstep': ['id', 'version', 'isNew','planId','parentId'],
    tag: ['id', 'version', 'isNew', 'descendantOf'],
-   target: ['id', 'version', 'isNew']
+   'doozy.target': ['id', 'version', 'isNew'],
+   'gnidbits.bit': ['id', 'tags'],
+   'gnidbits.strip': ['id', 'tags'],
 };
 
 var modelStraps = {
@@ -144,6 +146,60 @@ var modelStraps = {
          else {
             strap.parentId = null;
          }
+         return strap;
+   },
+   'gnidbits.bit': function (gnode, db) {
+         var strap = {};
+
+         /**
+          * defaults
+          */
+         strap.images = gnode.state.images || [];
+         strap.texts = gnode.state.texts || [];
+         strap.videos = gnode.state.videos || [];
+
+         /**
+          * calculations
+          */
+         // calc tags data
+         var tags = [];
+         gnode.siblings('tag').forEach(function (gnapse) {
+            tags.push(getModel(gnapse.getTarget(), db, 'tag'));
+         });
+         strap.tags = tags;
+
+         return strap;
+   },
+   'gnidbits.strip': function (gnode, db) {
+         var strap = {};
+
+         /**
+          * defaults
+          */
+         strap.bits = gnode.state.bits || [];
+         var mappedBits = [];
+         strap.bits.forEach(bit => {
+            var bitGnode = db.get('gnidbits.bit.' + bit);
+            if (bitGnode) {
+                  mappedBits.push(getModel(bitGnode, db, 'gnidbits.bit'));      
+            }
+            else {
+                  mappedBits.push({ id: 'blah', caption: 'blah', images: [], videos: [], texts: [], tags: []});
+            }
+         });
+
+         strap.bits = mappedBits;
+         
+         /**
+          * calculations
+          */
+         // calc tags data
+         var tags = [];
+         gnode.siblings('tag').forEach(function (gnapse) {
+            tags.push(getModel(gnapse.getTarget(), db, 'tag'));
+         });
+         strap.tags = tags;
+
          return strap;
    },
    tag: function (gnode, db) {

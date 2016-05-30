@@ -1,10 +1,11 @@
 import { ActionRoute, ActionsRoute, LogEntryRoute, LogEntriesRoute } from '../apps/doozy/routes';
-import { ComicsRoute, ComicRoute } from '../apps/gnidbits/routes';
+import { BitRoute, BitsRoute, StripRoute } from '../apps/gnidbits/routes';
 module.exports = [
    ActionRoute,
    ActionsRoute,
-   ComicsRoute,
-   ComicRoute,
+   BitRoute,
+   BitsRoute,
    LogEntryRoute,
-   LogEntriesRoute
+   LogEntriesRoute,
+   StripRoute
 ];
