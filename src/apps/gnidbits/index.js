@@ -1,5 +1,5 @@
 // var api = require('./api');
-// var ui = require('./ui');
+var ui = require('./ui');
 
 module.exports = function(operator) {
    // Add GraphQL Data Schema
@@ -12,5 +12,5 @@ module.exports = function(operator) {
    // api(operator);
    
    // UI Hooks
-   // ui(operator);
+   ui(operator);
 };
