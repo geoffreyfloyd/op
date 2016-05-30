@@ -33,7 +33,7 @@ module.exports = function (operator) {
                   }
                });
             }
-      }).then(function (result) {
+      }, 'slug').then(function (result) {
          res.end(JSON.stringify(result));
       });
    });

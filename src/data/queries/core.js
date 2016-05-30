@@ -46,7 +46,7 @@ var modelProps = {
    'doozy.planstep': ['id', 'version', 'isNew','planId','parentId'],
    tag: ['id', 'version', 'isNew', 'descendantOf'],
    'doozy.target': ['id', 'version', 'isNew'],
-   'gnidbits.bit': ['id', 'tags'],
+   'gnidbits.bit': ['id', 'tags', 'slug'],
    'gnidbits.strip': ['id', 'tags'],
 };
 
@@ -154,7 +154,9 @@ var modelStraps = {
          /**
           * defaults
           */
+         strap.caption = gnode.state.caption || '';
          strap.images = gnode.state.images || [];
+         strap.notes = gnode.state.notes || [];
          strap.texts = gnode.state.texts || [];
          strap.videos = gnode.state.videos || [];
 
@@ -180,12 +182,7 @@ var modelStraps = {
          var mappedBits = [];
          strap.bits.forEach(bit => {
             var bitGnode = db.get('gnidbits.bit.' + bit);
-            if (bitGnode) {
-                  mappedBits.push(getModel(bitGnode, db, 'gnidbits.bit'));      
-            }
-            else {
-                  mappedBits.push({ id: 'blah', caption: 'blah', images: [], videos: [], texts: [], tags: []});
-            }
+            mappedBits.push(getModel(bitGnode, db, 'gnidbits.bit'));
          });
 
          strap.bits = mappedBits;

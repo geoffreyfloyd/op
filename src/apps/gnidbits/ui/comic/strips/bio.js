@@ -1,8 +1,5 @@
 var strip = [
    {
-      uri: '3',
-      prev: '2',
-      next: '4',
       caption: 'I was born in Landstuhl, Germany',
       images: [
          {
@@ -14,9 +11,6 @@ var strip = [
       ],
    },
    {
-      uri: '4',
-      prev: '3',
-      next: '5',
       caption: 'To an American father in the US Army',
       images: [
          {
@@ -25,9 +19,6 @@ var strip = [
       ],
    },
    {
-      uri: '5',
-      prev: '4',
-      next: null,
       caption: 'And a simple German mother from the small village of Neidenbach',
       images: [
          {

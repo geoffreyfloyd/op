@@ -154,27 +154,6 @@ class GnodeStore extends ContextStore {
          
         var me = this;
         this._api = {
-            // get: function (id) {
-            //     if (id) {
-            //         var version = 0;
-            //         // pull version from gnode if it exists
-            //         var gnode = _cacheApi.getGnode(me.storeName, id);
-            //         if (gnode !== null) {
-            //             version = gnode.version || version;
-            //         }
-
-            //         return fetch({
-            //             url: baseUrl + '/api/' + me.storeName.toLowerCase() + '/' + id + '/' + version,
-            //             dataType: 'json',
-            //         });
-            //     }
-            //     else {
-            //         return fetch({
-            //             url: baseUrl + '/api/' + me.storeName.toLowerCase(),
-            //             dataType: 'json',
-            //         });
-            //     }
-            // },
             post: function (state) {
                 return http(baseUrl + '/api/' + me.storeName.toLowerCase()).post().withCreds().withJsonBody(state).requestJson();
             },
@@ -389,7 +368,7 @@ class GnodeStore extends ContextStore {
 
 _cacheApi.init();
 if (global.window) {
-    baseUrl = window.location.href.split('/').slice(0,3).join('/') + '/doozy';
+    baseUrl = window.location.href.split('/').slice(0,3).join('/') + '/gnidbits';
 }
 
 module.exports = GnodeStore;

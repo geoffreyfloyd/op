@@ -1,6 +1,7 @@
 
 import React from 'react';
 import fetch from '../../core/fetch';
+import Bit from './ui/bit';
 import Comic from './ui/comic';
 //import strips from './ui/comic/strips';
 
@@ -10,6 +11,8 @@ async function getTags () {
    return tags.data.tags;
 }
 
+var emptyBit = { id: '', caption: '', videos: [], images: [], notes: [], texts: [], tags: [] };
+
 export const BitRoute = {
    path: '/bits/:id',
    action: async (state) => {
@@ -17,16 +20,16 @@ export const BitRoute = {
       const id = state.params.id || '';
 
       // Get Bit
-      const response = await fetch(`/graphql?query={bits(id:"${id}"){id,caption,images{src},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}}}`);
+      const response = await fetch(`/graphql?query={bits(id:"${id}"){id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}}}`);
       const { data } = await response.json();
       
       // Get Tags
       var tags = await getTags();
       
       // Set Title
-      state.context.onSetTitle('Bits');
+      state.context.onSetTitle('Manage Bit');
       
-      return <Comic content={data.bits} tags={tags} />;
+      return <Bit model={data.bits[0] || emptyBit} tags={tags} />;
    }
 };
 
@@ -34,7 +37,7 @@ export const BitsRoute = {
    path: '/bits',
    action: async (state) => {
       // Get Bits
-      const response = await fetch(`/graphql?query={bits{id,caption,images{src},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}}}`);
+      const response = await fetch(`/graphql?query={bits{id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}}}`);
       const { data } = await response.json();
       
       // Get Tags

@@ -6,15 +6,14 @@ class BitStore extends GnodeStore {
         super('Bit');
     }
     
-    cleanActionName (name) {
-        return name.replace(/:/g, '').replace(/  /g, ' ').trim().toLowerCase(); // eslint-disable-line no-regex-spaces
-    }
-
-    getActionByName (name) {
-        var existingAction = those(actionStore.context({}).value).first(function (item) {
-            return cleanActionName(item.name) === cleanActionName(name.toLowerCase());
-        });
-        return existingAction;
+    save (model) {
+        if (model.key) {
+            this.update(model);
+        }
+        else {
+            model.slug = global.window.location.href.split('/').slice(-1)[0];
+            this.create(model);
+        }
     }
 }
 

@@ -3,12 +3,12 @@ import {
    GraphQLString as StringType,
 } from 'graphql';
 
-const TextType = new ObjectType({
-   name: 'TextType',
+const NoteType = new ObjectType({
+   name: 'NoteType',
    fields: {
       src: { type: StringType },
-      text: { type: StringType },
+      note: { type: StringType },
    },
 });
 
-export default TextType;
+export default NoteType;
