@@ -6,20 +6,17 @@ import {
    GraphQLNonNull as NonNull,
 } from 'graphql';
 
-import ActionType from './ActionType';
+import BitType from './BitType';
 import TagType from '../../../../data/types/TagType';
 
-const LogEntryType = new ObjectType({
-   name: 'LogEntry',
+const StripType = new ObjectType({
+   name: 'StripType',
    fields: {
       id: { type: new NonNull(StringType) },
-      duration: { type: IntType },
-      date: { type: StringType },
-      actions: { type: new List(ActionType) },
+      caption: { type: StringType },
+      bits: { type: new List(BitType) },
       tags: { type: new List(TagType) },
-      kind: { type: StringType },
-      details: { type: StringType }
    },
 });
 
-export default LogEntryType;
+export default StripType;

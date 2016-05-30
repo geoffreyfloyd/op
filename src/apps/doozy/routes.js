@@ -3,8 +3,6 @@ import React from 'react';
 import fetch from '../../core/fetch';
 import Action from './ui/action';
 import Actions from './ui/actions';
-import Comic from './ui/comic';
-import strips from './ui/comic/strips';
 import LogEntry from './ui/logentry';
 import LogEntries from './ui/logentries';
 
@@ -39,30 +37,6 @@ export const ActionsRoute = {
       
       state.context.onSetTitle('Actions');
       return <Actions list={data.actions} tags={tags} />;
-   }
-};
-
-export const ComicRoute = {
-   path: '/feeds/:id',
-   action: async (state) => {
-      state.context.onSetTitle(state.params.id);
-      var content = strips[state.params.id];
-      var props = {};
-      if (!content) {
-         props.index = strips;
-      }
-      else {
-         props.content = content;
-      }
-      return <Comic {...props} />;
-   }
-};
-
-export const ComicsRoute = {
-   path: '/feeds',
-   action: async (state) => {
-      state.context.onSetTitle('Feeds');
-      return <Comic index={strips} />;
    }
 };
 

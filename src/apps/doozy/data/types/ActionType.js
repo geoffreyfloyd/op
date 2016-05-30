@@ -6,7 +6,7 @@ import {
    GraphQLNonNull as NonNull,
 } from 'graphql';
 
-import TagType from './TagType';
+import TagType from '../../../../data/types/TagType';
 
 const ActionType = new ObjectType({
    name: 'Action',

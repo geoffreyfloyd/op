@@ -14,17 +14,18 @@ import {
 
 import me from './queries/me';
 import content from './queries/content';
-import news from './queries/news';
 
-export default function (schema) {
+
+export default function (operator) {
+   const tags = require('./queries/tags')(operator);
    return new Schema({
       query: new ObjectType({
          name: 'Query',
          fields: {
             me,
             content,
-            news,
-            ...schema
+            tags,
+            ...operator.dataSchema
          },
       }),
    });

@@ -1,28 +1,28 @@
 import { GraphQLList as List, GraphQLString } from 'graphql';
-import fetch from '../../../core/fetch';
-import TagType from './types/TagType';
+import fetch from '../../../../core/fetch';
+import StripType from '../types/StripType';
 import Promise from 'bluebird';
-import {get, getAll} from './core';
+import {get, getAll} from '../../../../data/queries/core';
 
 let lastFetchTask;
 
 module.exports = function (operator) {
    return {
-      type: new List(TagType),
+      type: new List(StripType),
       args: {
          id: { type: GraphQLString }
       },
       resolve(_, args) {
 
          if (args && args.id) {
-            // Array filtered to single tag
+            // Array filtered to single strip
             return new Promise(function (resolve, reject) {
                
-               var tag = get(operator, args.id, 'tag');
-               if (tag) {
-                  tag = [tag];
+               var strip = get(operator, args.id, 'gnidstrips.strip');
+               if (strip) {
+                  strip = [strip];
                }
-               resolve(tag);
+               resolve(strip);
             });
          }
          else {
@@ -31,8 +31,8 @@ module.exports = function (operator) {
             }
             
             lastFetchTask = new Promise(function (resolve, reject) {
-               var tags = getAll(operator, 'tag');
-               resolve(tags);
+               var strips = getAll(operator, 'gnidstrips.strip');
+               resolve(strips);
             })
             .finally(() => {
                lastFetchTask = null;

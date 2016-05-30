@@ -77,6 +77,7 @@ var dataSchemaBuilder = {};
 
 require('./apps/cmd-api')(operator);
 require('./apps/doozy')(operator);
+require('./apps/gnidbits')(operator);
 require('./apps/fs-api')(operator);
 require('./apps/gnodes-api')(operator);
 
@@ -84,7 +85,7 @@ require('./apps/gnodes-api')(operator);
 // Register API middleware
 // -----------------------------------------------------------------------------
 server.use('/graphql', expressGraphQL(req => ({
-   schema: schema(operator.dataSchema),
+   schema: schema(operator),
    graphiql: true,
    rootValue: { request: req },
    pretty: process.env.NODE_ENV !== 'production',

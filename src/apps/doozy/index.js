@@ -4,9 +4,8 @@ var ui = require('./ui');
 module.exports = function(operator) {
    // Add GraphQL Data Schema
    operator.addSchema({
-      actions: require('./data/actions')(operator),
-      logentries: require('./data/logentries')(operator),
-      tags: require('./data/tags')(operator),
+      actions: require('./data/queries/actions')(operator),
+      logentries: require('./data/queries/logentries')(operator),
    });
    
    // API/CMD Hooks

@@ -1,8 +1,8 @@
 import { GraphQLList as List, GraphQLString } from 'graphql';
-import fetch from '../../../core/fetch';
-import ActionType from './types/ActionType';
+import fetch from '../../../../core/fetch';
+import ActionType from '../types/ActionType';
 import Promise from 'bluebird';
-import {get, getAll} from './core';
+import {get, getAll} from '../../../../data/queries/core';
 
 let lastFetchTask;
 

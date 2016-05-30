@@ -2,7 +2,7 @@
 // var data = require('../doozy');
 // var those = require('those');
 import React from 'react';
-import {create, get, getAll, remove, removePrefix, update} from '../data/core';
+import {create, get, getAll, remove, removePrefix, update} from '../../../data/queries/core';
 import those from 'those';
 
 /**
