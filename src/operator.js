@@ -16,10 +16,11 @@
       next();
    }
    
-    var Operator = function (config, server, express, socketServer, authenticate, stats) {
+    var Operator = function (config, server, express, socketServer, authenticate, authorize, stats) {
         this.express = server;
         this.socketServer = socketServer;
         this.authenticate = authenticate;
+        this.authorize = authorize;
         this.reactRouterConfig = { routes: [] };
         this.stats = stats;
         this.db = null;
@@ -82,19 +83,19 @@
                         var error, user;
                         
                         // Just make sure the user is the one we expect
-                        if (profile.id === google.profileId) {
-                           error = null;
-                           user = {
-                              profileUrl: profile.photos.length > 0 ? profile.photos[0].value : null,
-                              userName: profile.displayName,
-                              provider: 'google',
-                              providerId: profile.id
-                           };   
-                        }
-                        else {
-                           error = new Error("Invalid user");
-                           user = null;
-                        }
+                        // if (profile.id === google.profileId) {
+                        error = null;
+                        user = {
+                            profileUrl: profile.photos.length > 0 ? profile.photos[0].value : null,
+                            userName: profile.displayName,
+                            provider: 'google',
+                            providerId: profile.id
+                        };
+                        // }
+                        // else {
+                        //    error = new Error("Invalid user");
+                        //    user = null;
+                        // }
                         
                         return done(error, user);
                     });

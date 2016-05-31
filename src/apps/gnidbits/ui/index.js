@@ -10,19 +10,19 @@ module.exports = function (operator) {
    /*****************************************************
    * BITS
    ****************************************************/
-   operator.express.get('/gnidbits/api/bit', operator.authenticate, operator.jsonResponse, function (req, res) {
+   operator.express.get('/gnidbits/api/bit', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
       getAll(operator, 'gnidbits.bit').then(function (result) {
          res.end(JSON.stringify(result));
       });
    });
    
-   operator.express.get('/gnidbits/api/bit/:id', operator.authenticate, operator.jsonResponse, function (req, res) {
+   operator.express.get('/gnidbits/api/bit/:id', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
       get(operator, req.params.id, 'gnidbits.bit').then(function (result) {
          res.end(JSON.stringify(result));
       });
    });
 
-   operator.express.post('/gnidbits/api/bit', operator.authenticate, operator.jsonResponse, function (req, res) {
+   operator.express.post('/gnidbits/api/bit', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
       create(operator, 'gnidbits.bit', req.body, function (gnode, db, model) {
             // Create tag connections
             if (model.tags && model.tags.length) {
@@ -38,7 +38,7 @@ module.exports = function (operator) {
       });
    });
 
-   operator.express.put('/gnidbits/api/bit', operator.authenticate, operator.jsonResponse, function (req, res) {
+   operator.express.put('/gnidbits/api/bit', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
       update(operator, 'gnidbits.bit', req.body, function (gnode, db, model) {
             // remove old connections
             var removeConnections = [];
@@ -86,7 +86,7 @@ module.exports = function (operator) {
       });
    });
 
-   operator.express.delete('/gnidbits/api/bit/:id', operator.authenticate, operator.jsonResponse, function (req, res) {
+   operator.express.delete('/gnidbits/api/bit/:id', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
       remove(operator, 'gnidbits.bit', req.params.id).then(function (result) {
          res.end(JSON.stringify(result));
       });

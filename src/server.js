@@ -68,7 +68,7 @@ server.use(function(req, res, next) {
 //
 // Configure Operator core
 // -----------------------------------------------------------------------------
-var operator = new Operator(config, server, express, socketServer, ensureAuthenticated, { publicPath: publicPath + '/' });
+var operator = new Operator(config, server, express, socketServer, ensureAuthenticated, ensureAuthorized, { publicPath: publicPath + '/' });
 // Dynamically require and inject operator into plugins
 // config.plugins.forEach(function (req) {
 //    require(req)(operator);
@@ -90,11 +90,11 @@ server.use('/graphql', expressGraphQL(req => ({
    rootValue: { request: req },
    pretty: process.env.NODE_ENV !== 'production',
 })));
-    
+
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
-server.get('*', ensureAuthenticated, async (req, res, next) => {
+server.get('*', ensureAuthenticated, ensureAuthorized, async (req, res, next) => {
    try {
       let statusCode = 200;
       const template = require('./views/index.jade');
@@ -159,5 +159,21 @@ function ensureAuthenticated(req, res, next) {
    if (req.isAuthenticated()) { 
       return next(); 
    }
+   res.redirect('/auth/google');
+}
+
+const allowConsumersOnReadOnlyUrls = ['/bits', '/strips'];
+
+function ensureAuthorized(req, res, next) {
+   var base = req.baseUrl;
+   var authorizedUsers = operator.config.users.producers.slice();
+   if (allowConsumersOnReadOnlyUrls.indexOf(req.baseUrl) > -1) {
+      authorizedUsers = authorizedUsers.concat(operator.config.users.consumers.slice());
+   }
+   if (authorizedUsers.indexOf(req.user.providerId) > -1) {
+      console.log('Granted access to ' + req.user.providerId);
+      return next();
+   }
+   console.log('Denied access to ' + req.user.providerId);
    res.redirect('/auth/google');
 }
