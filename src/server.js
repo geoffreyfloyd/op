@@ -162,18 +162,17 @@ function ensureAuthenticated(req, res, next) {
    res.redirect('/auth/google');
 }
 
-const allowConsumersOnReadOnlyUrls = ['/bits', '/strips'];
+const allowConsumersOnReadOnlyUrls = ['/', '/bits', '/strips'];
 
 function ensureAuthorized(req, res, next) {
-   var base = req.baseUrl;
    var authorizedUsers = operator.config.users.producers.slice();
-   if (allowConsumersOnReadOnlyUrls.indexOf(req.baseUrl) > -1) {
+   if (allowConsumersOnReadOnlyUrls.indexOf(req.url) > -1) {
       authorizedUsers = authorizedUsers.concat(operator.config.users.consumers.slice());
    }
    if (authorizedUsers.indexOf(req.user.providerId) > -1) {
-      console.log('Granted access to ' + req.user.providerId);
+      console.log(`Granted access for ${req.url} to ${req.user.providerId}`);
       return next();
    }
-   console.log('Denied access to ' + req.user.providerId);
-   res.redirect('/auth/google');
+   console.log(`Denied access for ${req.url} to ${req.user.providerId}`);
+   // res.redirect('/auth/google');
 }
