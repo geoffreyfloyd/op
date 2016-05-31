@@ -19,10 +19,6 @@ const styles = {
         textAlign: 'center',
     },
     image: {
-        // display: 'block',
-        // verticalAlign: 'middle',
-        // marginLeft: 'auto',
-        // marginRight: 'auto',
         margin: 'auto',
         position: 'absolute',
         top: '0',
