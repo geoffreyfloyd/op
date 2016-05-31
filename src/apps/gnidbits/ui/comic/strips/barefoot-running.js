@@ -1,9 +1,3 @@
-export default const strip = [
-   {
-      
-   }   
-];
-
 // Keywords
 // 	* Gait
 // 	* Bushmen

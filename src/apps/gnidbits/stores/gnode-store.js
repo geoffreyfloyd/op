@@ -259,7 +259,7 @@ class GnodeStore extends ContextStore {
         // Notify subscribers to ALL that a new node has been added
         // this.updateContext(cache[this.storeName].gnodes, {}); // id isn't valid yet
 
-        this._api.post(model)
+        return this._api.post(model)
         .then(function (serverModel) {
 
             // Update the local stash of gnodes
@@ -275,6 +275,7 @@ class GnodeStore extends ContextStore {
             if (then) {
                 then(serverModel);
             }
+            return serverModel;
             // MessageBox.notify('Added plan ' + model.name, 'success');
         }.bind(this))
         .catch( function (err) {
@@ -338,7 +339,7 @@ class GnodeStore extends ContextStore {
     }
 
     update (model, then, fail) {
-        this._api.put(model)
+        return this._api.put(model)
         .then(function (serverModel) {
             console.log(serverModel);
             // Update the local stash of gnodes
@@ -354,6 +355,8 @@ class GnodeStore extends ContextStore {
             if (then) {
                 then(serverModel);
             }
+            
+            return serverModel;
         }.bind(this))
         .catch(function (err) {
             // TODO: Undo optimistic concurrency and notify subscribers

@@ -115,7 +115,7 @@ export default function Presenter (props) {
    else {
       return (
          <div style={styles.body}>
-            <ComicStrip mode="feed" strip={content} />
+            <ComicStrip mode="wrap" strip={content} />
          </div>
       );   
    }
@@ -129,6 +129,7 @@ const styles = {
    wrap: {
       display: 'flex',
       alignContent: 'flex-start',
+      justifyContent: 'space-around',
       flexDirection: 'row',
       flexWrap: 'wrap',
       minHeight: '100vh',

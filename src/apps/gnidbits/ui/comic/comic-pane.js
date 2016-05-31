@@ -7,6 +7,16 @@ import ComicText from './comic-text';
 import those from 'those';
 import ReactDOM from 'react-dom';
 
+function isElementInViewport (el) {
+    var rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (global.window.innerHeight || global.document.documentElement.clientHeight) && /*or $(window).height() */
+        rect.right <= (global.window.innerWidth || global.document.documentElement.clientWidth) /*or $(window).width() */
+    );
+}
+
 export default class ComicPane extends React.Component {
     constructor (props) {
         super(props);
@@ -20,7 +30,10 @@ export default class ComicPane extends React.Component {
     componentDidUpdate () {
         if (this.props.active) {
             // Scroll into view
-            ReactDOM.findDOMNode(this).scrollIntoView(true);
+            var el = ReactDOM.findDOMNode(this); 
+            if (!isElementInViewport(el)) {
+                el.scrollIntoView(true);
+            }
         }
     }
     

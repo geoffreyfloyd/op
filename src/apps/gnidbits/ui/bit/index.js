@@ -11,6 +11,9 @@ export default class Bit extends React.Component {
    constructor(props) {
       super(props);
       this.handleSaveChanges = this.handleSaveChanges.bind(this);
+      this.state = {
+         model: this.props.model
+      };
    }
 
    /*************************************************************
@@ -19,14 +22,17 @@ export default class Bit extends React.Component {
    handleSaveChanges() {
       var form = this.refs.form.getValue();
       var newModel = Object.assign({}, this.props.model, form);
-      bitStore.save(newModel);
+      bitStore.save(newModel).then(serverModel => {
+         this.setState({ model: serverModel });
+      });
    }
 
    /*************************************************************
    * RENDERING
    *************************************************************/
    render() {
-      var {model} = this.props;
+      var { model } = this.state;
+      
       return (
          <div style={styles.background}>
             <div style={styles.content}>

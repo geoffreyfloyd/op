@@ -7,12 +7,12 @@ class BitStore extends GnodeStore {
     }
     
     save (model) {
-        if (model.key) {
-            this.update(model);
+        if (model.id) {
+            return this.update(model);
         }
         else {
             model.slug = global.window.location.href.split('/').slice(-1)[0];
-            this.create(model);
+            return this.create(model);
         }
     }
 }
