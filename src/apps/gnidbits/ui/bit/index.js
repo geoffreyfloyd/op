@@ -40,30 +40,33 @@ export default class Bit extends React.Component {
          <div style={styles.background}>
             <div style={styles.content}>
                <Form ref="form" model={model} style={{ color: '#2B90E8' }} labelStyle={{ color: '#00AF27' }}>
-                  <FormSection title="General">
+                  <FormSection title="General" labelSpan={2} style={styles.formSection}>
                      <TextInput label="Name" path="caption" />
                      <TagInput label="Tags" path="tags" items={tags} />
                   </FormSection>
-                  <FormSection title="Images">
+                  <FormSection title="Images" style={styles.formSection}>
                      <InputTable path="images" getNewRow={newImage}>
-                        <TextInput label="Source" path="src" />
+                        <TextInput path="src" />
                      </InputTable>
                   </FormSection>
-                  <FormSection title="Videos">
+                  <FormSection title="Videos" style={styles.formSection}>
                      <InputTable path="videos" getNewRow={newVideo}>
-                        <TextInput label="Source" path="src" />
-                        <TextInput label="Start At" type="number" path="start" />
-                        <TextInput label="End At" type="number" path="end" />
+                        <label className="control-label">Source</label>
+                        <TextInput path="src" />
+                        <label className="control-label">Start At</label>
+                        <TextInput type="number" path="start" />
+                        <label className="control-label">End At</label>
+                        <TextInput type="number" path="end" />
                      </InputTable>
                   </FormSection>
-                  <FormSection title="Texts">
+                  <FormSection title="Texts" style={styles.formSection}>
                      <InputTable path="texts" getNewRow={newText}>
-                        <MultiLineInput label="Text" path="text" />
+                        <MultiLineInput path="text" />
                      </InputTable>
                   </FormSection>
-                  <FormSection title="Notes">
+                  <FormSection title="Notes" style={styles.formSection}>
                      <InputTable path="notes" getNewRow={newNote}>
-                        <MultiLineInput label="Note" path="note" />
+                        <MultiLineInput path="note" />
                      </InputTable>
                   </FormSection>
                </Form>
@@ -127,7 +130,8 @@ function newText() {
 var styles = {
    background: {
       backgroundColor: '#222',
-      minHeight: '100vh'
+      minHeight: '100vh',
+      padding: '2rem',
    },
    centerButtons: {
       maxWidth: '48rem',
@@ -137,6 +141,12 @@ var styles = {
       // backgroundColor: '#fff',
       maxWidth: '60rem',
       margin: 'auto',
+   },
+   formSection: {
+      padding: '1rem',
+      margin: '1rem',
+      borderRadius: '0.5rem',
+      backgroundColor: '#333'
    },
    saveButton: {
       color: '#fff',

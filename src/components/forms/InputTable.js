@@ -203,10 +203,13 @@ class InputTable extends React.Component {
         // Build labels
         labels = cells.map(function (child, index) {
             var labelClass = child.props.labelStyle ? '' : 'col-md-' + (child.props.labelSpan || 2);
+            if (!child.props.label) {
+                return false;
+            }
             return (
                 <label key={'label_' + index} className={labelClass} style={Object.assign({}, styles.inputHeaderLabel, child.props.labelStyle) }>{child.props.label}</label>
             );
-        });
+        }).filter(a => a);
         
         // Build header
         if (labels && labels.length) {

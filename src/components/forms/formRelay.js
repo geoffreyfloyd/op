@@ -32,6 +32,10 @@ export default function formRelay (Component) {
                 handleInputUnregister: handleInputUnregister,
                 handleUpdateRequest: handleUpdateRequest,
                 InputWrapper: InputWrapper,
+                labelClass: props.labelClass || this.props.labelClass,
+                labelExplain: props.labelExplain || this.props.labelExplain,
+                labelSpan: props.labelSpan || this.props.labelSpan,
+                labelStyle: props.labelStyle || this.props.labelStyle,
             };
         }
         
@@ -62,6 +66,10 @@ export default function formRelay (Component) {
                 handleInputUnregister: handleInputUnregister,
                 handleUpdateRequest: handleUpdateRequest,
                 InputWrapper: InputWrapper,
+                labelClass: props.labelClass || this.props.labelClass,
+                labelExplain: props.labelExplain || this.props.labelExplain,
+                labelSpan: props.labelSpan || this.props.labelSpan,
+                labelStyle: props.labelStyle || this.props.labelStyle,
             };
         }
 
@@ -105,7 +113,10 @@ export default function formRelay (Component) {
                 register: handleInputRegister.bind(null, fullPath),
                 unregister: handleInputUnregister.bind(null, fullPath),
                 requestUpdate: handleUpdateRequest.bind(null, fullPath),
+                labelClass: props.labelClass || this.props.labelClass,
+                labelExplain: props.labelExplain || this.props.labelExplain,
                 labelSpan: props.labelSpan || this.props.labelSpan,
+                labelStyle: props.labelStyle || this.props.labelStyle,
             };
         }
 

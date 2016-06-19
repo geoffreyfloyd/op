@@ -45,7 +45,8 @@ class InputGroup extends React.Component {
             var labelStyle = child ? child.props.labelStyle || this.props.labelStyle : this.props.labelStyle;
             var path = child ? child.props.path : this.props.label;
             var inputSpan = 12 - labelSpan;
-            var labelClass = labelStyle ? '' : 'col-md-' + labelSpan;
+            var labelClass = child ? child.props.labelClass || this.props.labelClass || 'col-md-' + labelSpan : this.props.labelClass || 'col-md-' + labelSpan;
+            //var labelClass = labelStyle ? '' : 'col-md-' + labelSpan;
             return (
                 <div>
                     <label className={[labelClass, 'control-label'].join(' ')} style={labelStyle} title={labelExplain} htmlFor={path}>{label}</label>
