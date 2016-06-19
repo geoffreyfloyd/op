@@ -50,13 +50,13 @@ export default class Bit extends React.Component {
                      </InputTable>
                   </FormSection>
                   <FormSection title="Videos" style={styles.formSection}>
-                     <InputTable path="videos" getNewRow={newVideo}>
-                        <label className="control-label">Source</label>
-                        <TextInput path="src" />
-                        <label className="control-label">Start At</label>
-                        <TextInput type="number" path="start" />
-                        <label className="control-label">End At</label>
-                        <TextInput type="number" path="end" />
+                     <InputTable path="videos" getNewRow={newVideo} style={styles.inputRow}>
+                        <label className="control-label" style={styles.inlineLabel}>Source</label>
+                        <TextInput path="src" cellStyle={{ flex: '1' }} />
+                        <label className="control-label" style={styles.inlineLabel}>Start At</label>
+                        <TextInput type="number" path="start" cellStyle={{ maxWidth: '3rem' }} />
+                        <label className="control-label" style={styles.inlineLabel}>End At</label>
+                        <TextInput type="number" path="end" cellStyle={{ maxWidth: '3rem' }} />
                      </InputTable>
                   </FormSection>
                   <FormSection title="Texts" style={styles.formSection}>
@@ -146,6 +146,13 @@ var styles = {
       borderRadius: '0.25rem',
       backgroundColor: '#333',
       marginBottom: '0.5rem',
+   },
+   inlineLabel: {
+      padding: '0 0.5rem',
+      lineHeight: '2.3',
+   },
+   inputRow: {
+      display: 'flex',
    },
    saveButton: {
       color: '#fff',

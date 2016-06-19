@@ -174,7 +174,7 @@ class InputTable extends React.Component {
             dialog = React.cloneElement(dialogElement, { toggleButton: dialogButton, ...this.getFormRowInnerRelayProps(dialogElement, rowKey, rowIndex) });
 
             dialogButtonCell = (
-                <div key={'dialog'} className="input-group-addon" style={Object.assign({}, styles.clearWidth, this.props.styleInput)}>
+                <div key={'dialog'} className={this.props.style ? '' : 'input-group-addon'} style={Object.assign({}, styles.clearWidth, this.props.styleInput)}>
                     {dialog}
                 </div>
             );
@@ -187,7 +187,7 @@ class InputTable extends React.Component {
         var removeRowButtonCell;
         if (this.props.canRemove) {
             removeRowButtonCell = (
-                <div className="input-group-addon" style={Object.assign({}, styles.clearWidth, this.props.styleInput)}>
+                <div className={this.props.style ? '' : 'input-group-addon'} style={Object.assign({}, (this.props.style ? {} : styles.clearWidth), this.props.styleInput)}>
                     <IconButton icon="remove" style={styles.button} onClick={this.handleRemoveClick.bind(null, rowIndex)} />
                 </div>
             );
@@ -246,11 +246,11 @@ class InputTable extends React.Component {
                     var dialogButtonCell = this.renderDialogButtonCell(dialogElement, rowKey, rowIndex);
                     
                     return (
-                        <div key={'row_' + componentKey} className="input-group" style={this.props.style}>
+                        <div key={'row_' + componentKey} className={this.props.style ? '' : 'input-group'} style={this.props.style}>
                             {removeRowButtonCell}
                             {cells.map((child, fieldIndex) => {
                                 return (
-                                    <div key={'cell_' + componentKey + '_' + fieldIndex} className="input-group-addon" style={Object.assign({}, styles.noPad, this.props.styleInput, this.getInputStyle(fieldIndex))}>
+                                    <div key={'cell_' + componentKey + '_' + fieldIndex} className={this.props.style ? '' : 'input-group-addon'} style={Object.assign({}, styles.noPad, this.props.styleInput, child.props.cellStyle)}>
                                         {React.cloneElement(child, this.getRowInputProps(child, rowKey, rowIndex))}
                                     </div>
                                 );
@@ -279,7 +279,8 @@ var styles = {
     button: {
         margin: '0.2375rem',
         height: '1.6rem',
-        width: '1.6rem'
+        width: '1.6rem',
+        lineHeight: '1.6',
     },
     container: {
         padding: '15px'
