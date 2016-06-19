@@ -149,7 +149,7 @@ export default class Presenter extends React.Component {
 
    render () {
       var { content, tags, index } = this.props;
-      var { mediaType, tags } = this.state;
+      var state = this.state;
       if (index) {
          return (
             <div style={styles.body}>
@@ -161,12 +161,21 @@ export default class Presenter extends React.Component {
       }
       else {
 
-         content = content.filter(bit => {
-            if (mediaType && mediaType !== '*') {
-               return bit[mediaType].length;
-            }
-            return true;
-         });
+         if (state.mediaType && state.mediaType !== '*') {
+            content = content.filter(bit => {
+               return bit[state.mediaType].length;
+            });
+         }
+
+         if (state.tags.length) {
+            content = content.filter(bit => {
+               return state.tags.filter(tag => {
+                  return bit.tags.filter(bittag => {
+                     return bittag.id === tag.id;
+                  }).length;
+               }).length;
+            });
+         }
 
          return (
             <div style={styles.body}>
