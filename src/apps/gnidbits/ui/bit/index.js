@@ -145,7 +145,7 @@ var styles = {
       padding: '1rem',
       borderRadius: '0.25rem',
       backgroundColor: '#333',
-      marginBottom: '1rem',
+      marginBottom: '0.5rem',
    },
    saveButton: {
       color: '#fff',
