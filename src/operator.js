@@ -123,7 +123,10 @@
                 function(req, res) {
                     // Here user exists
                     // res.set('token', req.user.token);
-                    res.redirect('/');
+                    var redirectTo = req.session.redirectTo ? req.session.redirectTo : '/';
+                    delete req.session.redirectTo;
+                    console.log(redirectTo);
+                    res.redirect(redirectTo);
                 });
             }
 
