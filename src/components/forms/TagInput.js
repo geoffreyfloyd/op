@@ -19,7 +19,9 @@ class TagInput extends React.Component {
         this.handleInputBlur = this.handleInputBlur.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.state = {
-            input: null
+            input: null,
+            selectedTag: null,
+            suggestions: [],
         };
     }
     
@@ -37,17 +39,42 @@ class TagInput extends React.Component {
     }
 
     handleInputChange (e) {
+        var { items } = this.props;
+        var newValue = e.target.value;
+        var suggestions = items.filter(a => {
+            return a.name.indexOf(newValue) === 0 || a.id.indexOf(newValue) === 0;
+        });
         this.setState({
-            input: e.target.value
+            input: e.target.value,
+            suggestions: suggestions
         });
     }
 
     handleInputBlur () {
         var input = (this.state.input || '').slice();
+        if (input && this.state.suggestions.length) {
+            input += this.state.suggestions[0].name.slice(input.length);
+        }
         this.setState({
-            input: null
+            input: null,
+            selectedTag: null,
         });
         this.addTag(input);
+    }
+
+    handleTagClick (tagId) {
+        var { currentValue, onChange } = this.props;
+        var newValue = (currentValue || []).slice();
+
+        for (var i = 0; i < newValue.length; i++) {
+            if (newValue[i].id === tagId) {
+                newValue.splice(i, 1);
+                break;
+            }
+        }
+
+        onChange(newValue);
+        this.giveNextTagFocus = true;
     }
 
     addTag (tag) {
@@ -58,6 +85,7 @@ class TagInput extends React.Component {
         var { currentValue, items } = this.props;
 
         var newValue = (currentValue || []).slice();
+
         var exists;
         for (var i = 0; i < items; i++) {
             if (items[i].name === tag || items[i].id === tag) {
@@ -80,20 +108,26 @@ class TagInput extends React.Component {
     }
     
     render () {
+        var { input, suggestions } = this.state;
         var { path, currentValue, errors, focus, hasChanged, onFocus, onBlur, placeholder, readOnly, style, type, visible } = this.props;
         var hasErrors = errors && errors.length;
         
         var tags = (currentValue || []);
+        var suggestion;
+        if (suggestions.length) {
+            suggestion = <span>{suggestions[0].name.slice((input || '').length)}</span>;
+        }
         return (
             <div style={styles.container}>
                 <ul style={styles.tagList}>
                 {tags.map((item, index) => {
                     return (
-                        <li key={index} style={styles.tag(true)}>{item.name}</li>
+                        <li key={index} style={styles.tag(true)} onClick={this.handleTagClick.bind(this, item.id)}>{item.name}</li>
                     );
                 })}
                 </ul>
                 <input style={styles.inputContainer} ref={r => this.input = r} value={this.state.input} onBlur={this.handleInputBlur} onChange={this.handleInputChange} />
+                {suggestion}
             </div>
         );
             // <input ref="input" 

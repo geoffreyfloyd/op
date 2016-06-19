@@ -42,6 +42,7 @@ export default class Bit extends React.Component {
                <Form ref="form" model={model} style={{ color: '#2B90E8' }} labelStyle={{ color: '#00AF27' }}>
                   <FormSection title="General">
                      <TextInput label="Name" path="caption" />
+                     <TagInput label="Tags" path="tags" items={tags} />
                   </FormSection>
                   <FormSection title="Images">
                      <InputTable path="images" getNewRow={newImage}>
@@ -64,9 +65,6 @@ export default class Bit extends React.Component {
                      <InputTable path="notes" getNewRow={newNote}>
                         <MultiLineInput label="Note" path="note" />
                      </InputTable>
-                  </FormSection>
-                  <FormSection title="Tags">
-                     <TagInput label="Tags" path="tags" />
                   </FormSection>
                </Form>
                <div style={styles.centerButtons}>

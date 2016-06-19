@@ -7,7 +7,7 @@ import host from '../../stores/host';
 import Form from '../../../../components/forms/Form';
 import FormSection from '../../../../components/forms/FormSection';
 import InputTable from '../../../../components/forms/InputTable';
-import SelectionInput from '../../../../components/forms/SelectionInput';
+import TagInput from '../../../../components/forms/TagInput';
 import TextInput from '../../../../components/forms/TextInput';
 import MultiLineInput from '../../../../components/forms/MultiLineInput';
 import logEntryStore from '../../stores/logentry-store';
@@ -16,9 +16,6 @@ export default class LogEntry extends React.Component {
    constructor (props) {
       super(props);
       this.handleSaveChanges = this.handleSaveChanges.bind(this);
-      this.state = {
-         tags: this.props.model.tags.map(t => t.name).join(',')
-      };
    }
 
    /*************************************************************
@@ -44,11 +41,7 @@ export default class LogEntry extends React.Component {
                      <TextInput label="Date" path="date" type="date" />
                      <MultiLineInput label="Details" path="details" focus={true} />
                      <TextInput label="Duration" path="duration" type="text" />
-                  </FormSection>
-                  <FormSection title="Tags">
-                     <InputTable path="tags" getNewRow={newTag}>
-                        <SelectionInput path="id" items={tags} displayPath="name" valuePath="id" />
-                     </InputTable>
+                     <TagInput label="Tags" path="tags" items={tags} />
                   </FormSection>
                </Form>
                <div style={styles.centerButtons}>
