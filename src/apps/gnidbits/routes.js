@@ -19,34 +19,28 @@ export const BitRoute = {
       // Get optional param
       const id = state.params.id || '';
 
-      // Get Bit
-      const response = await fetch(`/graphql?query={bits(id:"${id}"){id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}}}`);
+      // Get Data
+      const response = await fetch(`/graphql?query={bits(id:"${id}"){id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
-      
-      // Get Tags
-      var tags = await getTags();
-      
+
       // Set Title
       state.context.onSetTitle('Manage Bit');
       
-      return <Bit model={data.bits[0] || emptyBit} tags={tags} />;
+      return <Bit model={data.bits[0] || emptyBit} tags={data.tags} />;
    }
 };
 
 export const BitsRoute = {
    path: '/bits',
    action: async (state) => {
-      // Get Bits
-      const response = await fetch(`/graphql?query={bits{id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}}}`);
+      // Get Data
+      const response = await fetch(`/graphql?query={bits{id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
-      
-      // Get Tags
-      var tags = await getTags();
       
       // Set Title
       state.context.onSetTitle('Bits');
       
-      return <Comic content={data.bits} tags={tags} />;
+      return <Comic content={data.bits} tags={data.tags} />;
    }
 };
 
@@ -64,16 +58,12 @@ export const StripRoute = {
       //    props.content = content;
       // }
      
-      // Get Strip
+      // Get Data
       const id = state.params.id || '';
-      const response = await fetch(`/graphql?query={strips(id:"${id}"){id,bits{id,caption,images{src},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}}`);
+      const response = await fetch(`/graphql?query={strips(id:"${id}"){id,bits{id,caption,images{src},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
       
-      // Get Tags
-      var tags = await getTags();
-      
-      
       // return <Comic {...props} />;
-      return <Comic content={data.strips[0].bits} tags={tags} />;
+      return <Comic content={data.strips[0].bits} tags={data.tags} />;
    }
 };

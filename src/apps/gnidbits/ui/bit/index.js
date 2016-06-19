@@ -2,6 +2,7 @@ import React from 'react';
 import Form from '../../../../components/forms/Form';
 import FormSection from '../../../../components/forms/FormSection';
 import InputTable from '../../../../components/forms/InputTable';
+import SelectionInput from '../../../../components/forms/SelectionInput';
 import TextInput from '../../../../components/forms/TextInput';
 import MultiLineInput from '../../../../components/forms/MultiLineInput';
 import bitStore from '../../stores/bit-store';
@@ -12,7 +13,8 @@ export default class Bit extends React.Component {
       super(props);
       this.handleSaveChanges = this.handleSaveChanges.bind(this);
       this.state = {
-         model: this.props.model
+         model: this.props.model,
+         tags: this.props.tags,
       };
    }
 
@@ -31,7 +33,7 @@ export default class Bit extends React.Component {
    * RENDERING
    *************************************************************/
    render() {
-      var { model } = this.state;
+      var { model, tags } = this.state;
       
       return (
          <div style={styles.background}>
@@ -62,6 +64,11 @@ export default class Bit extends React.Component {
                         <MultiLineInput label="Note" path="note" />
                      </InputTable>
                   </FormSection>
+                  <FormSection title="Tags">
+                     <InputTable path="tags" getNewRow={newTag}>
+                        <SelectionInput path="id" items={tags} displayPath="name" valuePath="id" />
+                     </InputTable>
+                  </FormSection>
                </Form>
                <div style={styles.centerButtons}>
                   <button style={styles.saveButton} onClick={this.handleSaveChanges}>Save Changes</button>
@@ -70,6 +77,14 @@ export default class Bit extends React.Component {
          </div>
       );
    }
+}
+
+function newTag() {
+   return new Promise(function (resolve, reject) {
+      resolve({
+         id: '',
+      });
+   });
 }
 
 function newImage() {

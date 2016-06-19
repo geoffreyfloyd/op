@@ -15,10 +15,10 @@ async function getTags () {
 export const ActionRoute = {
    path: '/actions/:id',
    action: async (state) => {
-      const response = await fetch(`/graphql?query={actions(id:"${state.params.id}"){id,name,tags{id,name,kind,descendantOf},kind,content,duration,lastPerformed}}`);
+      const response = await fetch(`/graphql?query={actions(id:"${state.params.id}"){id,name,tags{id,name,kind,descendantOf},kind,content,duration,lastPerformed},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
       state.context.onSetTitle('Action - ' + data.actions[0].name);
-      return <Action model={data.actions[0]} />;
+      return <Action model={data.actions[0]} tags={data.tags} />;
    }
 };
 
@@ -43,10 +43,10 @@ export const ActionsRoute = {
 export const LogEntryRoute = {
    path: '/log(entrie)?s/:id',
    action: async (state) => {
-      const response = await fetch(`/graphql?query={logentries(id:"${state.params.id}"){id,kind,date,details,duration,actions{id,name},tags{id,name,kind,descendantOf}}}`);
+      const response = await fetch(`/graphql?query={logentries(id:"${state.params.id}"){id,kind,date,details,duration,actions{id,name},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
       state.context.onSetTitle('Log Entry - ' + data.logentries[0].date.split('T')[0]);
-      return <LogEntry model={data.logentries[0]} />;
+      return <LogEntry model={data.logentries[0]} tags={data.tags} />;
    }
 };
 
