@@ -16,51 +16,146 @@ class TagInput extends React.Component {
      *************************************************************/
     constructor (props) {
         super(props);
-        this.provideValue = this.provideValue.bind(this);
+        this.handleInputBlur = this.handleInputBlur.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.state = {
+            input: null
+        };
     }
     
     componentDidMount () {
         if (this.props.focus) {
-            ReactDOM.findDOMNode(this).focus();
+            ReactDOM.findDOMNode(this.input).focus();
         }
     }
-    
-    provideValue (e) {
-        var value = null;
+
+    componentDidUpdate () {
+        if (this.giveNextTagFocus) {
+            ReactDOM.findDOMNode(this.input).focus();
+            this.giveNextTagFocus = false;
+        }
+    }
+
+    handleInputChange (e) {
+        this.setState({
+            input: e.target.value
+        });
+    }
+
+    handleInputBlur () {
+        var input = (this.state.input || '').slice();
+        this.setState({
+            input: null
+        });
+        this.addTag(input);
+    }
+
+    addTag (tag) {
+        if (!tag) {
+            return;
+        }
         
-        // Convert value from dom event
-        if (e.target.value === undefined || e.target.value === '' || e.target.value === null) {
-            value = null;
+        var { currentValue, items } = this.props;
+
+        var newValue = (currentValue || []).slice();
+        var exists;
+        for (var i = 0; i < items; i++) {
+            if (items[i].name === tag || items[i].id === tag) {
+                newValue.push(items[i]);
+                exists = true;
+                break;
+            }
         }
-        else if (this.props.type === 'number' && typeof e.target.value === 'string') {
-            value = parseInt(e.target.value, 10);
-        }
-        else {
-            value = e.target.value;
+
+        if (!exists) {
+            newValue.push({
+               id: tag,
+               name: tag,
+               kind: 'Tag',
+            });
         }
         
-        this.props.onChange(value);
+        this.props.onChange(newValue);
+        this.giveNextTagFocus = true;
     }
     
     render () {
         var { path, currentValue, errors, focus, hasChanged, onFocus, onBlur, placeholder, readOnly, style, type, visible } = this.props;
         var hasErrors = errors && errors.length;
         
+        var tags = (currentValue || []);
         return (
-            <input ref="input" 
-                readOnly={readOnly} 
-                style={Object.assign({}, $control(hasChanged, hasErrors), focus ? $focus(hasChanged, hasErrors) : {}, style, visible ? {} : $hide)} 
-                autoComplete="off"
-                id={path} 
-                type={type}
-                value={currentValue} 
-                onChange={this.provideValue}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                placeholder={placeholder} />
+            <div style={styles.container}>
+                <ul style={styles.tagList}>
+                {tags.map((item, index) => {
+                    return (
+                        <li key={index} style={styles.tag(true)}>{item.name}</li>
+                    );
+                })}
+                </ul>
+                <input style={styles.inputContainer} ref={r => this.input = r} value={this.state.input} onBlur={this.handleInputBlur} onChange={this.handleInputChange} />
+            </div>
         );
+            // <input ref="input" 
+            //     readOnly={readOnly} 
+            //     style={Object.assign({}, $control(hasChanged, hasErrors), focus ? $focus(hasChanged, hasErrors) : {}, style, visible ? {} : $hide)} 
+            //     autoComplete="off"
+            //     id={path} 
+            //     type={type}
+            //     value={currentValue} 
+            //     onChange={this.provideValue}
+            //     onFocus={onFocus}
+            //     onBlur={onBlur}
+            //     placeholder={placeholder} />
     }
 }
-        
 
-export default input(TextInput);
+const styles = {
+    container : {
+        border: '1px solid #1b9dec',
+        padding: '2px 0 0 2px',
+        border: '1px solid rgb(204, 204, 204)',
+        borderRadius: '4px',
+        boxShadow: 'rgba(0, 0, 0, 0.0745098) 0px 1px 1px inset',
+        transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
+        backgroundImage: 'none',
+        backgroundColor: 'rgb(255, 255, 255)',
+    },
+    inputContainer: {
+        borderRadius: '4px',
+        display: 'inline-block',
+        padding: '2px 5px',
+        margin: '0 0 2px 2px',
+        border: '1px solid #1b9dec',
+        width: '5rem',
+    },
+    input: {
+        display: 'inline-block',
+        border: '0px'
+    },
+    tagList: {
+        display: 'inline',
+        margin: '0',
+        padding: '2px',
+        listStyle: 'none',
+        border: 'none',
+        overflow: 'hidden',
+    },  
+    tag: function (exists) {
+        var s = {
+            cursor: 'pointer',
+            borderRadius: '4px',
+            display: 'inline-block',
+            padding: '2px 5px',
+            margin: '0 0 2px 2px',
+            border: '1px solid $clrBsDefault2'
+        };
+        if (exists) {
+            s.backgroundColor = '#1b9dec';
+            s.color = '#eee';
+        }
+        return s;
+    },
+};
+
+export default input(TagInput);

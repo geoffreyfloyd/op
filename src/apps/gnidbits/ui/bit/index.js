@@ -3,6 +3,7 @@ import Form from '../../../../components/forms/Form';
 import FormSection from '../../../../components/forms/FormSection';
 import InputTable from '../../../../components/forms/InputTable';
 import SelectionInput from '../../../../components/forms/SelectionInput';
+import TagInput from '../../../../components/forms/TagInput';
 import TextInput from '../../../../components/forms/TextInput';
 import MultiLineInput from '../../../../components/forms/MultiLineInput';
 import bitStore from '../../stores/bit-store';
@@ -65,9 +66,7 @@ export default class Bit extends React.Component {
                      </InputTable>
                   </FormSection>
                   <FormSection title="Tags">
-                     <InputTable path="tags" getNewRow={newTag}>
-                        <SelectionInput path="id" items={tags} displayPath="name" valuePath="id" />
-                     </InputTable>
+                     <TagInput label="Tags" path="tags" />
                   </FormSection>
                </Form>
                <div style={styles.centerButtons}>
