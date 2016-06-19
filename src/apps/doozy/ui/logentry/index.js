@@ -37,7 +37,7 @@ export default class LogEntry extends React.Component {
          <div style={styles.background}>
             <div style={styles.content}>
                <Form ref="form" model={model} style={{ color: '#2B90E8' }} labelSpan={2} labelStyle={{ color: '#00AF27' }}>
-                  <FormSection title="General">
+                  <FormSection title="General" style={styles.formSection}>
                      <TextInput label="Date" path="date" type="date" />
                      <MultiLineInput label="Details" path="details" focus={true} />
                      <TextInput label="Duration" path="duration" type="text" />
@@ -68,16 +68,21 @@ var styles = {
    background: {
       backgroundColor: '#222',
       minHeight: '100vh',
-      padding: '2rem',
+      padding: '0.5rem',
    },
    centerButtons: {
-      maxWidth: '48rem',
-      margin: '0 0 0 11rem',
+      margin: '1rem 0',
    },
    content: {
       // backgroundColor: '#fff',
       maxWidth: '60rem',
       margin: 'auto',
+   },
+   formSection: {
+      padding: '1rem',
+      borderRadius: '0.25rem',
+      backgroundColor: '#333',
+      marginBottom: '1rem',
    },
    saveButton: {
          color: '#fff',

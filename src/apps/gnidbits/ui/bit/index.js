@@ -131,11 +131,10 @@ var styles = {
    background: {
       backgroundColor: '#222',
       minHeight: '100vh',
-      padding: '2rem',
+      padding: '0.5rem',
    },
    centerButtons: {
-      maxWidth: '48rem',
-      margin: '0 0 0 11rem',
+      
    },
    content: {
       // backgroundColor: '#fff',
@@ -144,9 +143,9 @@ var styles = {
    },
    formSection: {
       padding: '1rem',
-      margin: '1rem',
-      borderRadius: '0.5rem',
-      backgroundColor: '#333'
+      borderRadius: '0.25rem',
+      backgroundColor: '#333',
+      marginBottom: '1rem',
    },
    saveButton: {
       color: '#fff',
