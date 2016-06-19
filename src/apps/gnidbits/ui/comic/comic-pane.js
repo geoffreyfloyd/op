@@ -95,19 +95,18 @@ export default class ComicPane extends React.Component {
         });
 
         if (images.length > 1) {
-            media = [
-                (<ComicAnimation fps={0.5}>{images}</ComicAnimation>),
-                ...videos,
-                ...texts,
-            ];
+            images = [<ComicAnimation fps={0.5}>{images}</ComicAnimation>];
         }
-        else {
-            media = [
-                ...images,
-                ...videos,
-                ...texts,
-            ];    
+
+        if (videos.length > 1) {
+            videos = videos.slice(0,1);
         }
+
+        media = [
+            ...images,
+            ...videos,
+            ...texts,
+        ];
         
         return media;
     }

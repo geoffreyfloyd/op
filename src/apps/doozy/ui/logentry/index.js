@@ -79,7 +79,7 @@ var styles = {
       margin: 'auto',
    },
    formSection: {
-      padding: '1rem',
+      padding: '0.5rem 1rem',
       borderRadius: '0.25rem',
       backgroundColor: '#333',
       marginBottom: '0.5rem',

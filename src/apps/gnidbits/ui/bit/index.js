@@ -54,9 +54,9 @@ export default class Bit extends React.Component {
                         <label className="control-label" style={styles.inlineLabel}>Source</label>
                         <TextInput path="src" cellStyle={{ flex: '1' }} />
                         <label className="control-label" style={styles.inlineLabel}>Start At</label>
-                        <TextInput type="number" path="start" cellStyle={{ maxWidth: '3rem' }} />
+                        <TextInput type="number" path="start" cellStyle={{ maxWidth: '5rem' }} />
                         <label className="control-label" style={styles.inlineLabel}>End At</label>
-                        <TextInput type="number" path="end" cellStyle={{ maxWidth: '3rem' }} />
+                        <TextInput type="number" path="end" cellStyle={{ maxWidth: '5rem' }} />
                      </InputTable>
                   </FormSection>
                   <FormSection title="Texts" style={styles.formSection}>
@@ -142,7 +142,7 @@ var styles = {
       margin: 'auto',
    },
    formSection: {
-      padding: '1rem',
+      padding: '0.5rem 1rem',
       borderRadius: '0.25rem',
       backgroundColor: '#333',
       marginBottom: '0.5rem',
