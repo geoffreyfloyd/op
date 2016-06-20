@@ -21,9 +21,11 @@ export default class ComicPane extends React.Component {
     constructor (props) {
         super(props);
         this.handleMediaClick = this.handleMediaClick.bind(this);
+        this.handleMediaDone = this.handleMediaDone.bind(this);
         this.handleClearFocusClick = this.handleClearFocusClick.bind(this);
         this.state = {
             focusOn: null,
+            mediaIndex: 0,
         };
     }
     
@@ -49,6 +51,20 @@ export default class ComicPane extends React.Component {
             focusOn: null,
         });
     }
+
+    handleMediaDone () {
+        if (this.state.mediaIndex <= this.lastMedia.filter(m => [ComicVideo].indexOf(m.type) > -1).length - 1) {
+            this.setState({
+                mediaIndex: this.state.mediaIndex + 1
+            });
+        }
+        else {
+            this.setState({
+                mediaIndex: 0
+            });
+            this.props.onDone();
+        }
+    }
     
     arrangeMedia () {
         var media;
@@ -62,7 +78,7 @@ export default class ComicPane extends React.Component {
                 key: index,
                 uri: this.props.uri,
                 active: this.props.active,
-                onDone: this.props.onDone,
+                onDone: this.handleMediaDone,
             };
             
             var kind;
@@ -99,7 +115,7 @@ export default class ComicPane extends React.Component {
         }
 
         if (videos.length > 1) {
-            videos = videos.slice(0,1);
+            videos = videos.slice(this.state.mediaIndex, this.state.mediaIndex + 1);
         }
 
         media = [
@@ -107,6 +123,8 @@ export default class ComicPane extends React.Component {
             ...videos,
             ...texts,
         ];
+
+        this.lastMedia = media;
         
         return media;
     }

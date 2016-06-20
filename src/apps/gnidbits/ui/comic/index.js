@@ -61,16 +61,16 @@ class ComicStrip extends React.Component {
       }
    }
    
-   renderVideo(video, active) {
-      return <ComicVideo active={active} {...video} />;
+   renderVideo(video, index, active) {
+      return <ComicVideo key={'video-' + index} active={active} {...video} />;
    }
    
-   renderImage(image) {
-      return <ComicImage {...image} />;
+   renderImage(image, index) {
+      return <ComicImage key={'image-' + index} {...image} />;
    }
    
-   renderText(text) {
-      return <ComicText {...text} />
+   renderText(text, index) {
+      return <ComicText key={'text-' + index} {...text} />
    }
    
    render() {
@@ -83,13 +83,13 @@ class ComicStrip extends React.Component {
                var texts = [];
                
                if (node.videos && node.videos.length) {
-                  videos = node.videos.map(vid => this.renderVideo(vid));
+                  videos = node.videos.map((vid, index) => this.renderVideo(vid, index));
                }
                if (node.images && node.images.length) {
-                  images = node.images.map(img => this.renderImage(img));
+                  images = node.images.map((img, index) => this.renderImage(img, index));
                }
                if (node.texts && node.texts.length) {
-                  texts = node.texts.map(txt => this.renderText(txt));
+                  texts = node.texts.map((txt, index) => this.renderText(txt, index));
                }
                
                return <ComicPane 

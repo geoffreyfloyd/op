@@ -1,5 +1,5 @@
 import React from 'react';
-import {create, get, getAll, remove, removePrefix, update} from '../../../data/queries/core';
+import {create, get, getAll, remove, update} from '../../../data/queries/core';
 import those from 'those';
 
 /**
@@ -27,7 +27,7 @@ module.exports = function (operator) {
             // Create tag connections
             if (model.tags && model.tags.length) {
                model.tags.forEach(function (tag) {
-                  var tagNode = db.find(removePrefix(tag), 'tag').first();
+                  var tagNode = db.find(tag.id, 'tag').first();
                   if (tagNode) {
                         gnode.connect(tagNode, db.RELATION.ASSOCIATE);
                   }
