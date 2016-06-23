@@ -13,11 +13,31 @@ class MultiLineInput extends React.Component {
     }
     
     componentDidMount () {
+        if (this.props.autoGrow && this.doAutoGrow) {
+            this.doAutoGrow = false;
+            autoGrow(ReactDOM.findDOMNode(this));
+        }
         if (this.props.focus) {
             ReactDOM.findDOMNode(this).focus();
         }
     }
+
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.currentValue !== this.props.currentValue) {
+            this.doAutoGrow = true;
+        }
+    }
     
+    componentDidUpdate () {
+        if (this.props.autoGrow && this.doAutoGrow) {
+            this.doAutoGrow = false;
+            autoGrow(ReactDOM.findDOMNode(this));
+        }
+        if (this.props.focus) {
+            ReactDOM.findDOMNode(this).focus();
+        }
+    }
+
     provideValue (e) {
         var value = null;
         
@@ -32,6 +52,7 @@ class MultiLineInput extends React.Component {
             value = e.target.value;
         }
         
+        this.doAutoGrow = true;
         this.props.onChange(value);
     }
     
