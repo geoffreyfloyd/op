@@ -1,4 +1,5 @@
 import React from 'react';
+import Message from '../../../../components/Message';
 import Form from '../../../../components/forms/Form';
 import FormSection from '../../../../components/forms/FormSection';
 import InputTable from '../../../../components/forms/InputTable';
@@ -25,8 +26,11 @@ export default class Bit extends React.Component {
    handleSaveChanges() {
       var form = this.refs.form.getValue();
       var newModel = Object.assign({}, this.props.model, form);
+
+      Message.notify('Saving...');
       bitStore.save(newModel).then(serverModel => {
          this.setState({ model: serverModel });
+         Message.notify('Saved...');
       });
    }
 
