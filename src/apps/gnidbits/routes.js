@@ -11,7 +11,7 @@ async function getTags () {
    return tags.data.tags;
 }
 
-var emptyBit = { id: '', caption: '', videos: [], images: [], notes: [], texts: [], tags: [] };
+var emptyBit = { id: '', caption: '', videos: [], images: [], links: [], notes: [], texts: [], tags: [] };
 
 export const BitRoute = {
    path: '/bits/:id',
@@ -20,7 +20,7 @@ export const BitRoute = {
       const id = state.params.id || '';
 
       // Get Data
-      const response = await fetch(`/graphql?query={bits(id:"${id}"){id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
+      const response = await fetch(`/graphql?query={bits(id:"${id}"){id,caption,images{src},links{src,description},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
 
       // Set Title
@@ -34,7 +34,7 @@ export const BitsRoute = {
    path: '/bits',
    action: async (state) => {
       // Get Data
-      const response = await fetch(`/graphql?query={bits{id,caption,images{src},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
+      const response = await fetch(`/graphql?query={bits{id,caption,images{src},links{src,description},notes{note},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
       
       // Set Title
@@ -60,7 +60,7 @@ export const StripRoute = {
      
       // Get Data
       const id = state.params.id || '';
-      const response = await fetch(`/graphql?query={strips(id:"${id}"){id,bits{id,caption,images{src},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
+      const response = await fetch(`/graphql?query={strips(id:"${id}"){id,bits{id,caption,images{src},links{src,description},texts{text},videos{src,start,end},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
       
       // return <Comic {...props} />;

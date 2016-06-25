@@ -7,6 +7,7 @@ import {
 } from 'graphql';
 
 import ImageType from './ImageType';
+import LinkType from './LinkType';
 import NoteType from './NoteType';
 import TagType from '../../../../data/types/TagType';
 import TextType from './TextType';
@@ -18,6 +19,7 @@ const BitType = new ObjectType({
       id: { type: new NonNull(StringType) },
       caption: { type: StringType },
       images: { type: new List(ImageType) },
+      links: { type: new List(LinkType) },
       notes: { type: new List(NoteType) },
       tags: { type: new List(TagType) },
       texts: { type: new List(TextType) },

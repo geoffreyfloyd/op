@@ -73,6 +73,12 @@ export default class Bit extends React.Component {
                         <MultiLineInput path="note" />
                      </InputTable>
                   </FormSection>
+                  <FormSection title="Links" style={styles.formSection}>
+                     <InputTable path="links" getNewRow={newLink}>
+                        <TextInput path="src" />
+                        <TextInput path="description" />
+                     </InputTable>
+                  </FormSection>
                </Form>
                <div style={styles.centerButtons}>
                   <button style={styles.saveButton} onClick={this.handleSaveChanges}>Save Changes</button>
@@ -124,6 +130,15 @@ function newText() {
       resolve({
          src: '',
          text: ''
+      });
+   });
+}
+
+function newLink() {
+   return new Promise(function (resolve, reject) {
+      resolve({
+         src: '',
+         description: '',
       });
    });
 }
