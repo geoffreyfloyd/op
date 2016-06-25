@@ -35,6 +35,7 @@
         this.connectToData();
         this.configurePassport();
         server.use('/my', express.static(config.repoPath));
+        config.dirs.forEach(dir => server.use('/' + dir.mnt, express.static(dir.path)));
     };
     
     Operator.prototype = {

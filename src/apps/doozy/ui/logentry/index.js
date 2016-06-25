@@ -2,8 +2,7 @@ import '../../global.scss';
 
 import React from 'react';
 import host from '../../stores/host';
-// import InputForm from '../../components/input-form';
-// import TextInput from '../../components/input-form/TextInput';
+import { $background, $content, $form, $formSection, $label, $buttons, $button } from '../../../../components/styles';
 import Form from '../../../../components/forms/Form';
 import FormSection from '../../../../components/forms/FormSection';
 import InputTable from '../../../../components/forms/InputTable';
@@ -34,18 +33,18 @@ export default class LogEntry extends React.Component {
       // <TextInput label="Kind" field="kind" />
       var { model, tags } = this.props;
       return ( 
-         <div style={styles.background}>
-            <div style={styles.content}>
-               <Form ref="form" model={model} style={{ color: '#2B90E8' }} labelSpan={2} labelStyle={{ color: '#00AF27' }}>
-                  <FormSection title="General" style={styles.formSection}>
+         <div style={$background}>
+            <div style={$content}>
+               <Form ref="form" model={model} style={$form} labelSpan={2} labelStyle={$label}>
+                  <FormSection title="General" style={$formSection}>
                      <TextInput label="Date" path="date" type="date" />
-                     <MultiLineInput label="Details" path="details" focus={true} />
+                     <MultiLineInput label="Details" path="details" autoGrow focus />
                      <TextInput label="Duration" path="duration" type="text" />
                      <TagInput label="Tags" path="tags" items={tags} />
                   </FormSection>
                </Form>
-               <div style={styles.centerButtons}>
-                  <button style={styles.saveButton} onClick={this.handleSaveChanges}>Save Changes</button>
+               <div style={$buttons}>
+                  <button style={$button} onClick={this.handleSaveChanges}>Save Changes</button>
                </div>
             </div>
          </div>
@@ -60,51 +59,3 @@ function newTag() {
       });
    });
 }
-
-/*************************************************************
- * STYLING
- *************************************************************/
-var styles = {
-   background: {
-      backgroundColor: '#222',
-      minHeight: '100vh',
-      padding: '0.5rem',
-   },
-   centerButtons: {
-      margin: '1rem 0',
-   },
-   content: {
-      // backgroundColor: '#fff',
-      maxWidth: '60rem',
-      margin: 'auto',
-   },
-   formSection: {
-      padding: '0.5rem 1rem',
-      borderRadius: '0.25rem',
-      backgroundColor: '#333',
-      marginBottom: '0.5rem',
-   },
-   saveButton: {
-         color: '#fff',
-         backgroundColor: '#2B90E8',
-         
-         width: '100%',
-         
-         display: 'inline-block',
-         fontSize: '1.1rem',
-         lineHeight: '1.42857143',
-         textAlign: 'center',
-         whiteSpace: 'nowrap',
-         verticalAlign: 'middle',
-         MsTouchAction: 'manipulation',
-         touchAction: 'manipulation',
-         cursor: 'pointer',
-         WebkitUserSelect: 'none',
-         MozUserSelect: 'none',
-         MsUserSelect: 'none',
-         userSelect: 'none',
-         backgroundImage: 'none',
-         border: '1px solid transparent',
-         borderRadius: '0.25rem'
-   }
-};

@@ -75,5 +75,10 @@ class MultiLineInput extends React.Component {
     }
 }
         
+function autoGrow (textArea) {
+    textArea.style.overflowY = 'hidden';
+    textArea.style.height = 'auto';
+    textArea.style.height = textArea.scrollHeight + 'px';
+}
 
 export default input(MultiLineInput);

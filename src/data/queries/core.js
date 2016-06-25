@@ -46,8 +46,9 @@ var modelProps = {
    'doozy.planstep': ['id', 'version', 'isNew','planId','parentId'],
    tag: ['id', 'version', 'isNew', 'descendantOf'],
    'doozy.target': ['id', 'version', 'isNew'],
-   'gnidbits.bit': ['id', 'tags', 'slug'],
-   'gnidbits.strip': ['id', 'tags'],
+   'gnidbits.bit': ['id', 'version', 'isNew', 'tags', 'slug'],
+   'gnidbits.strip': ['id', 'version', 'isNew', 'tags'],
+   path: ['id', 'version', 'isNew'],
 };
 
 var modelStraps = {
@@ -159,6 +160,7 @@ var modelStraps = {
          strap.notes = gnode.state.notes || [];
          strap.texts = gnode.state.texts || [];
          strap.videos = gnode.state.videos || [];
+         strap.links = gnode.state.links || [];
 
          /**
           * calculations
@@ -212,6 +214,10 @@ var modelStraps = {
          };
          gnode.parents('tag').forEach(getAllParents);
          strap.descendantOf = tags;
+         return strap;
+   },
+   path: function (gnode, db) {
+         var strap = {};
          return strap;
    }
 }
