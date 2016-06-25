@@ -2,7 +2,7 @@
 // var data = require('../doozy');
 // var those = require('those');
 import React from 'react';
-import {create, get, getAll, remove, removePrefix, update} from '../../../data/queries/core';
+import {create, get, getAll, remove, update} from '../../../data/queries/core';
 import those from 'those';
 
 /**
@@ -13,24 +13,24 @@ module.exports = function (operator) {
    /*****************************************************
    * ACTIONS
    ****************************************************/
-   operator.express.get('/doozy/api/action', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
-      getAll(operator, 'doozy.action').then(function (result) {
-         res.end(JSON.stringify(result));
-      });
-   });
+//    operator.express.get('/doozy/api/action', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
+//       getAll(operator, 'doozy.action').then(function (result) {
+//          res.end(JSON.stringify(result));
+//       });
+//    });
    
-   operator.express.get('/doozy/api/action/:id', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
-      get(operator, req.params.id, 'doozy.action').then(function (result) {
-         res.end(JSON.stringify(result));
-      });
-   });
+//    operator.express.get('/doozy/api/action/:id', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
+//       get(operator, req.params.id, 'doozy.action').then(function (result) {
+//          res.end(JSON.stringify(result));
+//       });
+//    });
 
    operator.express.post('/doozy/api/action', operator.authenticate, operator.authorize, operator.jsonResponse, function (req, res) {
       create(operator, 'doozy.action', req.body, function (gnode, db, model) {
             // Create tag connections
             if (model.tags && model.tags.length) {
                model.tags.forEach(function (tag) {
-                  var tagNode = db.find(removePrefix(tag), 'tag').first();
+                  var tagNode = db.find(tag.name, 'tag').first();
                   if (tagNode) {
                         gnode.connect(tagNode, db.RELATION.ASSOCIATE);
                   }
@@ -331,7 +331,7 @@ module.exports = function (operator) {
             // Create tag connections
             if (model.tags && model.tags.length) {
                model.tags.forEach(function (tag) {
-                  var tagNode = db.find(removePrefix(tag), 'tag').first();
+                  var tagNode = db.find(tag.name, 'tag').first();
                   if (tagNode) {
                         gnode.connect(tagNode, db.RELATION.ASSOCIATE);
                   }
@@ -378,7 +378,7 @@ module.exports = function (operator) {
             }
             else if (model.tags && model.tags.length) {
                what = model.tags.map(function (tag) {
-                  return removePrefix(tag);
+                  return tag.name;
                }).join('_');
             }
             else {

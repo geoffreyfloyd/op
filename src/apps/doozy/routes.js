@@ -6,6 +6,41 @@ import Actions from './ui/actions';
 import LogEntry from './ui/logentry';
 import LogEntries from './ui/logentries';
 
+var emptyAction = function () {
+   return {
+      isNew: true,
+      id: '',
+      kind: 'Action',
+      name: '',
+      created: (new Date()).toISOString(),
+      duration: 0,
+      content: null,
+      beginDate: null,
+      nextDate: null,
+      isPublic: false,
+      lastPerformed: null,
+      tags: [],
+      recurrenceRules: [],
+      items: []
+   };
+};
+
+var emptyLog = function () {
+   return {
+      isNew: true,
+      id: '',
+      actionId: null,
+      rootActionId: null,
+      actionName: '',
+      duration: 0,
+      date: (new Date()).toISOString(),
+      details: '',
+      entry: 'performed',
+      tags: []
+   };
+};
+
+
 async function getTags () {
    var tagsResponse = await fetch(`/graphql?query={tags{id,name,kind,descendantOf}}`);
    var tags = await tagsResponse.json();
@@ -17,8 +52,9 @@ export const ActionRoute = {
    action: async (state) => {
       const response = await fetch(`/graphql?query={actions(id:"${state.params.id}"){id,name,tags{id,name,kind,descendantOf},kind,content,duration,lastPerformed},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
-      state.context.onSetTitle('Action - ' + data.actions[0].name);
-      return <Action model={data.actions[0]} tags={data.tags} />;
+      var model = data.actions[0] || emptyAction();
+      state.context.onSetTitle('Action - ' + model.name);
+      return <Action model={model} tags={data.tags} />;
    }
 };
 
@@ -45,8 +81,9 @@ export const LogEntryRoute = {
    action: async (state) => {
       const response = await fetch(`/graphql?query={logentries(id:"${state.params.id}"){id,kind,date,details,duration,actions{id,name},tags{id,name,kind,descendantOf}},tags{id,name,kind,descendantOf}}`);
       const { data } = await response.json();
-      state.context.onSetTitle('Log Entry - ' + data.logentries[0].date.split('T')[0]);
-      return <LogEntry model={data.logentries[0]} tags={data.tags} />;
+      var model = data.logentries[0] || emptyLog();
+      state.context.onSetTitle('Log Entry - ' + model.date.split('T')[0]);
+      return <LogEntry model={model} tags={data.tags} />;
    }
 };
 

@@ -1,15 +1,6 @@
 import Promise from 'bluebird';
 import those from 'those';
 
-// export function removePrefix (tag) {
-//    if (doozy.TAG_PREFIXES.indexOf(tag.slice(0, 1)) === -1) {
-//          return tag;
-//    }
-//    else {
-//          return tag.slice(1);
-//    }
-// };
-
 var baseModel = function (gnode) {
    if (gnode) {
          return {
