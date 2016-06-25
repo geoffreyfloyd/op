@@ -98,7 +98,7 @@ server.get('*', ensureAuthenticated, ensureAuthorized, async (req, res, next) =>
    try {
       let statusCode = 200;
       const template = require('./views/index.jade');
-      const data = { title: '', description: '', css: '', body: '', entry: assets.main.js };
+      const data = { title: '', description: '', css: '', body: '', entry: assets.main.client.js };
 
       if (process.env.NODE_ENV === 'production') {
          data.trackingId = analytics.google.trackingId;
@@ -110,6 +110,37 @@ server.get('*', ensureAuthenticated, ensureAuthorized, async (req, res, next) =>
          onSetTitle: value => (data.title = value),
          onSetMeta: (key, value) => (data[key] = value),
          onPageNotFound: () => (statusCode = 404),
+      };
+
+      await Router.dispatch({ path: req.path, query: req.query, context }, (state, component) => {
+         data.body = ReactDOM.renderToString(component);
+         data.css = css.join('');
+      });
+
+      res.status(statusCode);
+      res.send(template(data));
+   } catch (err) {
+      next(err);
+   }
+});
+
+server.get('/bit', ensureAuthenticated, ensureAuthorized, async (req, res, next) => {
+   try {
+      let statusCode = 200;
+      const template = require('./views/noss.jade');
+      const data = { title: '', description: '', css: '', body: '', entry: assets.main.bit.js };
+
+      if (process.env.NODE_ENV === 'production') {
+         data.trackingId = analytics.google.trackingId;
+      }
+
+      const css = [];
+      const context = {
+         insertCss: styles => css.push(styles._getCss()),
+         onSetTitle: value => (data.title = value),
+         onSetMeta: (key, value) => (data[key] = value),
+         onPageNotFound: () => (statusCode = 404),
+         onSetEntry: value => (data.entry = value)
       };
 
       await Router.dispatch({ path: req.path, query: req.query, context }, (state, component) => {
